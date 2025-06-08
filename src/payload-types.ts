@@ -6,23 +6,107 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
+export type SupportedTimezones =
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Brisbane'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
   };
+  blocks: {};
   collections: {
     users: User;
     media: Media;
+    posts: Post;
+    categories: Category;
+    tags: Tag;
+    comments: Comment;
+    rooms: Room;
+    bookings: Booking;
+    reviews: Review;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
+  };
+  collectionsJoins: {};
+  collectionsSelect: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    rooms: RoomsSelect<false> | RoomsSelect<true>;
+    bookings: BookingsSelect<false> | BookingsSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
     defaultIDType: string;
   };
   globals: {};
+  globalsSelect: {};
   locale: null;
   user: User & {
     collection: 'users';
+  };
+  jobs: {
+    tasks: unknown;
+    workflows: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -49,6 +133,32 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  name?: string | null;
+  role?: ('customer' | 'vendor' | 'admin') | null;
+  billing?: {
+    first_name?: string | null;
+    last_name?: string | null;
+    company?: string | null;
+    address_1?: string | null;
+    address_2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postcode?: string | null;
+    country?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  shipping?: {
+    first_name?: string | null;
+    last_name?: string | null;
+    company?: string | null;
+    address_1?: string | null;
+    address_2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postcode?: string | null;
+    country?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -78,6 +188,235 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  author: string | User;
+  publishedDate: string;
+  status?: ('draft' | 'published' | 'trash') | null;
+  featuredImage?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+  posts?: (string | Post)[] | null;
+  featuredImage: string | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: string;
+  name: string;
+  description: string;
+  featuredImage: string | Media;
+  posts: (string | Post)[];
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: string;
+  post: string | Post;
+  parent?: (string | null) | Comment;
+  authorName: string;
+  authorEmail: string;
+  content: string;
+  status: 'approved' | 'pending' | 'spam';
+  ipAddress?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rooms".
+ */
+export interface Room {
+  id: string;
+  title: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  vendor: string | User;
+  type: '1rk' | '1bhk' | '2bhk' | '3bhk' | 'pg_male' | 'pg_female' | 'hostel' | 'shared' | 'other';
+  pricePerMonth: number;
+  availableFrom?: string | null;
+  city: 'sagar' | 'damoh';
+  state: 'mp' | 'up';
+  area?: string | null;
+  furnishing?: ('unfurnished' | 'semi' | 'furnished') | null;
+  maxAllowedMembers?: number | null;
+  googleMapLink?: string | null;
+  /**
+   * Paste iframe embed code from Google Maps
+   */
+  googleMapEmbed?: string | null;
+  amenities?:
+    | {
+        amenity?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  photos?: (string | Media)[] | null;
+  status?: ('active' | 'inactive' | 'booked') | null;
+  comments?: (string | null) | Comment;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: string;
+  bookingCode: string;
+  user: string | User;
+  vendor: string | User;
+  room: string | Room;
+  bookingDate: string;
+  bookingTime?: string | null;
+  status?: ('pending' | 'confirmed' | 'cancelled' | 'completed') | null;
+  notes?: string | null;
+  amount: number;
+  paymentStatus?: ('unpaid' | 'paid' | 'refunded') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: string;
+  room: string | Room;
+  user: string | User;
+  rating: number;
+  reviewText: string;
+  photos?: (string | Media)[] | null;
+  likes?:
+    | {
+        user: string | User;
+        likedAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  comments?:
+    | {
+        user: string | User;
+        comment: string;
+        createdAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: string;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: string | Post;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: string | Tag;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: string | Comment;
+      } | null)
+    | ({
+        relationTo: 'rooms';
+        value: string | Room;
+      } | null)
+    | ({
+        relationTo: 'bookings';
+        value: string | Booking;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: string | Review;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -112,6 +451,241 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  billing?:
+    | T
+    | {
+        first_name?: T;
+        last_name?: T;
+        company?: T;
+        address_1?: T;
+        address_2?: T;
+        city?: T;
+        state?: T;
+        postcode?: T;
+        country?: T;
+        email?: T;
+        phone?: T;
+      };
+  shipping?:
+    | T
+    | {
+        first_name?: T;
+        last_name?: T;
+        company?: T;
+        address_1?: T;
+        address_2?: T;
+        city?: T;
+        state?: T;
+        postcode?: T;
+        country?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  excerpt?: T;
+  content?: T;
+  author?: T;
+  publishedDate?: T;
+  status?: T;
+  featuredImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  posts?: T;
+  featuredImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  featuredImage?: T;
+  posts?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  post?: T;
+  parent?: T;
+  authorName?: T;
+  authorEmail?: T;
+  content?: T;
+  status?: T;
+  ipAddress?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rooms_select".
+ */
+export interface RoomsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  vendor?: T;
+  type?: T;
+  pricePerMonth?: T;
+  availableFrom?: T;
+  city?: T;
+  state?: T;
+  area?: T;
+  furnishing?: T;
+  maxAllowedMembers?: T;
+  googleMapLink?: T;
+  googleMapEmbed?: T;
+  amenities?:
+    | T
+    | {
+        amenity?: T;
+        id?: T;
+      };
+  photos?: T;
+  status?: T;
+  comments?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings_select".
+ */
+export interface BookingsSelect<T extends boolean = true> {
+  bookingCode?: T;
+  user?: T;
+  vendor?: T;
+  room?: T;
+  bookingDate?: T;
+  bookingTime?: T;
+  status?: T;
+  notes?: T;
+  amount?: T;
+  paymentStatus?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  room?: T;
+  user?: T;
+  rating?: T;
+  reviewText?: T;
+  photos?: T;
+  likes?:
+    | T
+    | {
+        user?: T;
+        likedAt?: T;
+        id?: T;
+      };
+  comments?:
+    | T
+    | {
+        user?: T;
+        comment?: T;
+        createdAt?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
