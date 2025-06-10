@@ -1,3 +1,4 @@
+import "../globals.css";
 import type { Metadata } from 'next'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
@@ -64,7 +65,10 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <Header />
+        <div className="mt-[72px]">
+
         {children}
+        </div>
         <Footer />
       </body>
     </html>

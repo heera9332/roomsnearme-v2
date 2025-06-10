@@ -136,6 +136,15 @@ export const Rooms: CollectionConfig = {
       ],
     },
     {
+      name: 'featuredImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+
+    {
       name: 'photos',
       type: 'upload',
       relationTo: 'media',
@@ -159,10 +168,10 @@ export const Rooms: CollectionConfig = {
       },
     },
     {
-      name: "comments",
-      relationTo: "comments",
-      type: "relationship"
-    }
+      name: 'comments',
+      relationTo: 'comments',
+      type: 'relationship',
+    },
   ],
   timestamps: true,
 }

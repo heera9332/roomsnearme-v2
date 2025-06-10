@@ -111,20 +111,18 @@ export interface Config {
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
+    username: string;
   };
   login: {
-    email: string;
     password: string;
+    username: string;
   };
   registerFirstUser: {
-    email: string;
     password: string;
+    username: string;
   };
   unlock: {
-    email: string;
-    password: string;
+    username: string;
   };
 }
 /**
@@ -162,6 +160,7 @@ export interface User {
   updatedAt: string;
   createdAt: string;
   email: string;
+  username: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
   salt?: string | null;
@@ -313,6 +312,7 @@ export interface Room {
         id?: string | null;
       }[]
     | null;
+  featuredImage?: (string | null) | Media;
   photos?: (string | Media)[] | null;
   status?: ('active' | 'inactive' | 'booked') | null;
   comments?: (string | null) | Comment;
@@ -490,6 +490,7 @@ export interface UsersSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   email?: T;
+  username?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
   salt?: T;
@@ -603,6 +604,7 @@ export interface RoomsSelect<T extends boolean = true> {
         amenity?: T;
         id?: T;
       };
+  featuredImage?: T;
   photos?: T;
   status?: T;
   comments?: T;

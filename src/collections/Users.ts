@@ -2,10 +2,12 @@ import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  auth: true,
+  auth: {
+    loginWithUsername: true,
+  },
   access: {},
   admin: {
-    defaultColumns: ['name', 'email'],
+    defaultColumns: ['name', 'email', 'username'],
     useAsTitle: 'name',
   },
   timestamps: true,
@@ -14,6 +16,20 @@ export const Users: CollectionConfig = {
       name: 'name',
       label: 'Full Name',
       type: 'text',
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email',
+      required: true,
+      unique: true
+    },
+    {
+      name: 'username',
+      type: 'text',
+      label: 'Mobile',
+      unique: true,
+      required: true,
     },
     {
       name: 'role',
