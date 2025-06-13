@@ -216,6 +216,7 @@ export interface Post {
   publishedDate: string;
   status?: ('draft' | 'published' | 'trash') | null;
   featuredImage?: (string | null) | Media;
+  likes?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -571,6 +572,7 @@ export interface PostsSelect<T extends boolean = true> {
   publishedDate?: T;
   status?: T;
   featuredImage?: T;
+  likes?: T;
   updatedAt?: T;
   createdAt?: T;
 }

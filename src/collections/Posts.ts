@@ -76,6 +76,12 @@ export const Posts: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    {
+      label: "Likes",
+      type: "number",
+      name: "likes",
+      defaultValue: 0
+    }
   ],
   timestamps: true,
 }
