@@ -327,12 +327,54 @@ export interface Booking {
   id: string;
   bookingCode: string;
   user: string | User;
-  vendor: string | User;
-  room: string | Room;
-  bookingDate: string;
-  bookingTime?: string | null;
+  items: {
+    room: string | Room;
+    quantity: number;
+    checkInDate: string;
+    checkOutDate: string;
+    price: number;
+    meta?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    id?: string | null;
+  }[];
+  billing?: {
+    first_name?: string | null;
+    last_name?: string | null;
+    company?: string | null;
+    address_1?: string | null;
+    address_2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postcode?: string | null;
+    country?: string | null;
+    email?: string | null;
+    phone?: string | null;
+  };
+  shipping?: {
+    first_name?: string | null;
+    last_name?: string | null;
+    company?: string | null;
+    address_1?: string | null;
+    address_2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postcode?: string | null;
+    country?: string | null;
+  };
   status?: ('pending' | 'confirmed' | 'cancelled' | 'completed') | null;
-  notes?: string | null;
+  notes?:
+    | {
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   amount: number;
   paymentStatus?: ('unpaid' | 'paid' | 'refunded') | null;
   updatedAt: string;
@@ -618,12 +660,52 @@ export interface RoomsSelect<T extends boolean = true> {
 export interface BookingsSelect<T extends boolean = true> {
   bookingCode?: T;
   user?: T;
-  vendor?: T;
-  room?: T;
-  bookingDate?: T;
-  bookingTime?: T;
+  items?:
+    | T
+    | {
+        room?: T;
+        quantity?: T;
+        checkInDate?: T;
+        checkOutDate?: T;
+        price?: T;
+        meta?: T;
+        id?: T;
+      };
+  billing?:
+    | T
+    | {
+        first_name?: T;
+        last_name?: T;
+        company?: T;
+        address_1?: T;
+        address_2?: T;
+        city?: T;
+        state?: T;
+        postcode?: T;
+        country?: T;
+        email?: T;
+        phone?: T;
+      };
+  shipping?:
+    | T
+    | {
+        first_name?: T;
+        last_name?: T;
+        company?: T;
+        address_1?: T;
+        address_2?: T;
+        city?: T;
+        state?: T;
+        postcode?: T;
+        country?: T;
+      };
   status?: T;
-  notes?: T;
+  notes?:
+    | T
+    | {
+        note?: T;
+        id?: T;
+      };
   amount?: T;
   paymentStatus?: T;
   updatedAt?: T;

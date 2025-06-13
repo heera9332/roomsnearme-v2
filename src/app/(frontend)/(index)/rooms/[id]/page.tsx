@@ -10,6 +10,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { CalendarPlus, MessageCircleQuestion } from 'lucide-react'
 import { useCartStore } from '@/store/cart-store'
 import { useRouter } from "next/navigation";
+import Loader from "@/components/loader";
 
 function formatDate(dateStr) {
   if (!dateStr) return 'N/A'
@@ -52,7 +53,7 @@ export default function RoomSinglePage({ params }: Args) {
   if (loading) {
     return (
       <div className="mt-16 p-4">
-        <h1 className="text-3xl font-semibold">Loading...</h1>
+        <Loader/>
       </div>
     )
   }
@@ -166,6 +167,7 @@ export default function RoomSinglePage({ params }: Args) {
                   value={quantity}
                   onChange={e => setQuantity(Number(e.target.value))}
                   className="w-20 border rounded px-2 py-1 ml-2"
+                  readOnly
                 />
               </div>
               <button

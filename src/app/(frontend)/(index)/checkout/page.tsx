@@ -10,6 +10,8 @@ import { useState } from "react";
 import format from "date-fns/format";
 import Image from "next/image";
 import Link from "next/link";
+import { axios } from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 const emptyBilling = {
   first_name: "",
@@ -39,8 +41,10 @@ const emptyShipping = {
 export default function CheckoutPage() {
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clearCart);
+  const router = useRouter();
 
   // Main email, name, role for the user
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -62,27 +66,47 @@ export default function CheckoutPage() {
     setShipping((prev) => ({ ...prev, [name]: value }));
   }
 
-  function handleOrder(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleOrder(e: React.FormEvent) {
+  e.preventDefault();
 
-    // If shippingSame, copy billing to shipping
-    const shippingData = shippingSame ? { ...billing } : shipping;
+  const shippingData = shippingSame ? { ...billing } : shipping;
 
-    // Compose order data
-    const order = {
-      email,
-      name,
-      username,
-      billing,
-      shipping: shippingData,
-      cart: items,
-      total,
-    };
+  const bookingPayload = {
+    bookingCode: `BK-${Date.now()}`,
+    user: "",       // Set this from your auth/user context
+    vendor: "",   // Set this from your room/vendor logic
+    items: items.map(item => ({
+      room: item.id,
+      quantity: item.quantity,
+      checkInDate: item.checkInDate,
+      checkOutDate: item.checkOutDate,
+      price: item.price,
+      meta: {}, // Optional, e.g. { notes: item.notes }
+    })),
+    billing,
+    shipping: shippingData,
+    status: "pending",
+    amount: total,
+    paymentStatus: "unpaid",
+  };
 
-    // For demo, just show order object
-    alert("Order placed!\n" + JSON.stringify(order, null, 2));
+  try {
+    setLoading(true);
+    const response = await axios.post("/api/bookings", bookingPayload);
+    const data = response.data;
+
+    // Optionally show success
     clearCart();
+    router.push(`/checkout/thank-you?booking-code=${data.doc?.bookingCode}`);
+    // You can also redirect to a thank-you page or order summary:
+    // router.push("/thank-you?booking=" + response.data.id);
+  } catch (err: any) {
+    alert("Booking failed: " + (err?.response?.data?.message || err?.message));
+  } finally {
+    setLoading(false);
   }
+}
+
 
   return (
     <div className="max-w-7xl mx-auto py-4 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -204,7 +228,7 @@ export default function CheckoutPage() {
           </fieldset>
         )}
 
-        <Button type="submit" className="w-full mt-4 text-lg">Place Order</Button>
+        <Button type="submit" className="w-full mt-4 text-lg cursor-pointer" disabled={loading}>Place Order</Button>
       </form>
 
       {/* Right: Order summary */}
