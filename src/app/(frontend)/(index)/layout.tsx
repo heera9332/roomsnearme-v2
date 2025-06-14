@@ -1,4 +1,4 @@
-import "../globals.css";
+import '../globals.css'
 import type { Metadata } from 'next'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
@@ -60,15 +60,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${jost.variable} ${manrope.variable} ${openSans.variable}`}>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
       <body className="antialiased">
         <Header />
-        <div className="mt-[72px]">
-
-        {children}
-        </div>
+        <div className="mt-[72px]">{children}</div>
         <Footer />
       </body>
     </html>

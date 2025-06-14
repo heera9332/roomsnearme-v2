@@ -9,8 +9,10 @@ interface AppState {
 
   loadingPosts: boolean
   loadingRooms: boolean
+  totalRooms: number      // <--- add this
 
-  loadRooms: () => Promise<void>
+
+  loadRooms: (query?: { s?: string; limit?: number; page?: number; city?: string }) => Promise<void>
   getRoom: (id: string) => Room | null
   getPost: (id: string) => Post | null
   loadPosts: () => Promise<void>
@@ -24,30 +26,41 @@ export const useAppStore = create<AppState>()(
       rooms: [],
       loadingPosts: false,
       loadingRooms: false,
+      totalRooms: 0,
 
       getRoom(id) {
-        const rooms1 = this.rooms.filter(room => room.id == id);
-        return rooms1.length ? rooms1[0] : null;
+        const rooms1 = this.rooms.filter((room) => room.id == id)
+        return rooms1.length ? rooms1[0] : null
       },
 
       getPost(id) {
-        const rooms1 = this.posts.filter(post => post.id == id);
-        return rooms1.length ? rooms1[0] : null;
-      }, 
+        const rooms1 = this.posts.filter((post) => post.id == id)
+        return rooms1.length ? rooms1[0] : null
+      },
 
-      // Load Rooms from API
-      loadRooms: async () => {
+      loadRooms: async (query) => {
         try {
+          const q = query?.s || ''
+          const limit = query?.limit || 10
+          const page = query?.page || 1
+          const city = query?.city || ''
+
           set({ loadingRooms: true })
-          const res = await axios.get('/api/rooms')
+          const res = await axios.get(
+            `/api/rooms?where[title][like]=${q}&page=${page}&limit=${limit}&city=${city}`,
+          )
           const data: Room[] = res.data?.docs || []
-          set({ rooms: data })
+          set({
+            rooms: data,
+            totalRooms: res.data?.totalDocs || res.data?.total || 0, // adapt to your API's total count property
+          })
         } catch (error) {
           console.log('failed to load rooms', error)
         } finally {
-           set({ loadingRooms: false })
+          set({ loadingRooms: false })
         }
       },
+
 
       // Load Posts from API
       loadPosts: async () => {
@@ -81,6 +94,6 @@ export const useAppStore = create<AppState>()(
         // await axios.post(`/api/posts/${id}/like`);
       },
     }),
-    { name: 'rooms-app-storage' }
-  )
+    { name: 'rooms-app-storage' },
+  ),
 )

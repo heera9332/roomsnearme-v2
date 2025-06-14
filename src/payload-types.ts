@@ -370,14 +370,19 @@ export interface Booking {
     country?: string | null;
   };
   status?: ('pending' | 'confirmed' | 'cancelled' | 'completed') | null;
+  taxAmount?: number | null;
+  totalAmount: number;
+  paymentMethod?: string | null;
+  paymentMethodTitle?: string | null;
+  transactionId: number;
+  vendor: string | User;
+  paymentStatus?: ('unpaid' | 'paid' | 'refunded') | null;
   notes?:
     | {
         note?: string | null;
         id?: string | null;
       }[]
     | null;
-  amount: number;
-  paymentStatus?: ('unpaid' | 'paid' | 'refunded') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -702,14 +707,19 @@ export interface BookingsSelect<T extends boolean = true> {
         country?: T;
       };
   status?: T;
+  taxAmount?: T;
+  totalAmount?: T;
+  paymentMethod?: T;
+  paymentMethodTitle?: T;
+  transactionId?: T;
+  vendor?: T;
+  paymentStatus?: T;
   notes?:
     | T
     | {
         note?: T;
         id?: T;
       };
-  amount?: T;
-  paymentStatus?: T;
   updatedAt?: T;
   createdAt?: T;
 }

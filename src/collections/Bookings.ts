@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { isAdmin, isVendor, isLoggedIn } from '@/access'
-import configPromise from "@payload-config";
-import { getPayload } from "payload";
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 
 export const Bookings: CollectionConfig = {
   slug: 'bookings',
@@ -116,17 +116,36 @@ export const Bookings: CollectionConfig = {
       },
     },
     {
-      name: 'notes',
-      type: 'array',
-      fields: [{ name: 'note', type: 'textarea' }],
+      name: 'taxAmount',
+      type: 'number',
+    },
+    {
+      name: 'totalAmount',
+      type: 'number',
+      required: true,
+    },
+    {
+      name: 'paymentMethod',
+      type: 'text',
+    },
+    {
+      name: 'paymentMethodTitle',
+      type: 'text',
+    },
+    {
+      name: 'transactionId',
+      type: 'number',
+      required: true,
+    },
+    {
+      name: 'vendor',
+      type: 'relationship',
+      relationTo: 'users',
+      required: true,
+      label: 'Vendor',
       admin: {
         position: 'sidebar',
       },
-    },
-    {
-      name: 'amount',
-      type: 'number',
-      required: true,
     },
     {
       name: 'paymentStatus',
@@ -141,6 +160,14 @@ export const Bookings: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'notes',
+      type: 'array',
+      fields: [{ name: 'note', type: 'textarea' }],
+      admin: {
+        position: 'sidebar',
+      },
+    },
   ],
   hooks: {
     beforeChange: [
@@ -148,7 +175,7 @@ export const Bookings: CollectionConfig = {
         // Only act on create
         if (operation !== 'create') return data
 
-        const payload = await getPayload({config: configPromise});
+        const payload = await getPayload({ config: configPromise })
         try {
           let userId = data.user
           const billing = data.billing || {}
