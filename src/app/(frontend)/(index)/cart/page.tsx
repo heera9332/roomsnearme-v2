@@ -28,12 +28,12 @@ export default function CheckoutPage() {
       <table className="w-full mb-4 border">
         <thead className="">
           <tr>
-            <th className="p-2 bg-gray-50">Room</th>
-            <th className="p-2 bg-gray-50">Image</th>
-            <th className="p-2 bg-gray-50">Quantity</th>
-            <th className="p-2 bg-gray-50">Price</th>
-            <th className="p-2 bg-gray-50">Total</th>
-            <th className="p-2 bg-gray-50"></th>
+            <th className="p-2 bg-gray-50 text-left">Room</th>
+            <th className="p-2 bg-gray-50 text-left">Image</th>
+            <th className="p-2 bg-gray-50 text-left">Quantity</th>
+            <th className="p-2 bg-gray-50 text-left">Price</th>
+            <th className="p-2 bg-gray-50 text-left">Total</th>
+            <th className="p-2 bg-gray-50 text-left"></th>
           </tr>
         </thead>
         <tbody>
@@ -50,8 +50,9 @@ export default function CheckoutPage() {
                   type="number"
                   value={item.quantity}
                   min={1}
-                  className="w-16 border rounded"
+                  className="w-16 border rounded text-center"
                   onChange={e => updateQuantity(item.id, Number(e.target.value))}
+                  readOnly
                 />
               </td>
               <td className="p-2">₹{item.price}</td>

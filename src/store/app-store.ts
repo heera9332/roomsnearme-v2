@@ -47,7 +47,7 @@ export const useAppStore = create<AppState>()(
 
           set({ loadingRooms: true })
           const res = await axios.get(
-            `/api/rooms?where[title][like]=${q}&page=${page}&limit=${limit}&city=${city}`,
+            `/api/rooms?where[title][like]=${q}&page=${page}&limit=${limit}&where[city][like]=${city}`,
           )
           const data: Room[] = res.data?.docs || []
           set({

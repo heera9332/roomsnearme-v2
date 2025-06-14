@@ -1,4 +1,5 @@
 import '@/app/(frontend)/globals.css'
+import CitiesSlider from '@/components/cities-slider'
 import { RoomSearch } from '@/components/room-search'
 // import CitiesSlider from "@/components/cities-slider";
 // import BrowseByPropertyType from "@/components/property-types";
@@ -17,7 +18,7 @@ export default async function Home() {
       </section>
 
       <section className="max-w-7xl md:mx-auto p-4 md:px-6 md:py-10">
-        {/* <CitiesSlider /> */}
+        <CitiesSlider />
       </section>
 
       <section className="max-w-7xl md:mx-auto p-4 md:px-6 md:py-10 my-4">

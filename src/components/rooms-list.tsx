@@ -129,9 +129,9 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
                     <Content {...room} />
                   </p>
                   <p className="text-[#003b95] mt-2 font-bold">₹{room?.pricePerMonth}/month</p>
-                  <Link href={`/contact?roomId=${room.id}`}>
+                  <Link href={`/rooms/${room.id}`}>
                     <Button className="cursor-pointer bg-[#003b95] text-white mt-3 px-4 py-2 rounded-md transition hover:bg-[#003b95]">
-                      Book Now
+                      View info.
                     </Button>
                   </Link>
                 </div>
@@ -144,7 +144,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
       </div>
 
       {/* Pagination */}
-      {showPagination && (
+      {(showPagination && rooms.length) ? (
         <div className="flex justify-center items-center gap-2 mt-6">
           <Button
             className="px-3 py-1"
@@ -171,7 +171,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
             Next
           </Button>
         </div>
-      )}
+      ): ""}
     </div>
   )
 }

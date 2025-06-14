@@ -371,10 +371,10 @@ export interface Booking {
   };
   status?: ('pending' | 'confirmed' | 'cancelled' | 'completed') | null;
   taxAmount?: number | null;
-  totalAmount: number;
+  totalAmount?: number | null;
   paymentMethod?: string | null;
   paymentMethodTitle?: string | null;
-  transactionId: number;
+  transactionId?: number | null;
   vendor: string | User;
   paymentStatus?: ('unpaid' | 'paid' | 'refunded') | null;
   notes?:

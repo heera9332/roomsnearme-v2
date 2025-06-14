@@ -122,7 +122,6 @@ export const Bookings: CollectionConfig = {
     {
       name: 'totalAmount',
       type: 'number',
-      required: true,
     },
     {
       name: 'paymentMethod',
@@ -135,7 +134,6 @@ export const Bookings: CollectionConfig = {
     {
       name: 'transactionId',
       type: 'number',
-      required: true,
     },
     {
       name: 'vendor',

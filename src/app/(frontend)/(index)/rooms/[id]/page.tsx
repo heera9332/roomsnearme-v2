@@ -11,6 +11,7 @@ import { CalendarPlus, MessageCircleQuestion } from 'lucide-react'
 import { useCartStore } from '@/store/cart-store'
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
+import { Room } from "@/payload-types";
 
 function formatDate(dateStr) {
   if (!dateStr) return 'N/A'
@@ -25,9 +26,10 @@ interface Args {
 
 export default function RoomSinglePage({ params }: Args) {
   const { id } = use(params); 
-  const [room, setRoom] = useState<any>(null)
+  const [room, setRoom] = useState<Room | null>(null)
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
+  const [vendor, setVendor] = useState("");
 
   // Date state
   const [checkInDate, setCheckInDate] = useState<Date | null>(null)
@@ -73,11 +75,12 @@ export default function RoomSinglePage({ params }: Args) {
       return;
     }
     addToCart({
-      id: room.id,
-      title: room.title,
-      price: room.pricePerMonth,
+      id: room?.id,
+      title: room?.title,
+      price: room?.pricePerMonth,
       quantity,
-      featuredImage: room.featuredImage,
+      vendor: room?.vendor,
+      featuredImage: room?.featuredImage,
       checkInDate,
       checkOutDate,
     })
@@ -102,17 +105,17 @@ export default function RoomSinglePage({ params }: Args) {
           </div>
 
           <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 mb-2">
-            <div><strong>Status:</strong> {room.status}</div>
-            <div><strong>Price:</strong> ₹{room.pricePerMonth}/month</div>
-            <div><strong>Type:</strong> {room.type}</div>
-            <div><strong>Furnishing:</strong> {room.furnishing || 'N/A'}</div>
-            <div><strong>Available From:</strong> {formatDate(room.availableFrom)}</div>
-            <div><strong>Max Allowed Members:</strong> {room.maxAllowedMembers}</div>
-            <div><strong>Area:</strong> {room.area || 'N/A'}</div>
-            <div><strong>City:</strong> {room.city || 'N/A'}</div>
-            <div><strong>State:</strong> {room.state || 'N/A'}</div>
-            <div><strong>Created At:</strong> {formatDate(room.createdAt)}</div>
-            <div><strong>Updated At:</strong> {formatDate(room.updatedAt)}</div>
+            <div className="text-[16px]"><strong>Status:</strong> {room.status}</div>
+            <div className="text-[16px]"><strong>Price:</strong> ₹{room.pricePerMonth}/month</div>
+            <div className="text-[16px]"><strong>Type:</strong> {room.type}</div>
+            <div className="text-[16px]"><strong>Furnishing:</strong> {room.furnishing || 'N/A'}</div>
+            <div className="text-[16px]"><strong>Available From:</strong> {formatDate(room.availableFrom)}</div>
+            <div className="text-[16px]"><strong>Max Allowed Members:</strong> {room.maxAllowedMembers}</div>
+            <div className="text-[16px]"><strong>Area:</strong> {room.area || 'N/A'}</div>
+            <div className="text-[16px]"><strong>City:</strong> {room.city || 'N/A'}</div>
+            <div className="text-[16px]"><strong>State:</strong> {room.state || 'N/A'}</div>
+            <div className="text-[16px]"><strong>Created At:</strong> {formatDate(room.createdAt)}</div>
+            <div className="text-[16px]"><strong>Updated At:</strong> {formatDate(room.updatedAt)}</div>
           </div>
 
           <div className="mt-4">
