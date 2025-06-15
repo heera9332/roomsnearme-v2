@@ -5,7 +5,8 @@ import { Viewport } from 'next'
 import { queryPosts } from '@/utils/api'
 import { Post } from '@/payload-types'
 import { PostsSearch } from '@/components/posts-search'
-
+import { Suspense } from 'react'
+import Loader from '@/components/loader'
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -30,16 +31,24 @@ const Blogs = async () => {
           <h2 className="text-xl font-bold mb-4">Categories</h2>
           <ul className="space-y-2 text-blue-700 text-sm">
             <li>
-              <Link href="/blogs" className="hover:underline">All Blogs</Link>
+              <Link href="/blogs" className="hover:underline">
+                All Blogs
+              </Link>
             </li>
             <li>
-              <Link href="/blogs?cat=tech" className="hover:underline">Tech</Link>
+              <Link href="/blogs?cat=tech" className="hover:underline">
+                Tech
+              </Link>
             </li>
             <li>
-              <Link href="/blogs?cat=life-style" className="hover:underline">Lifestyle</Link>
+              <Link href="/blogs?cat=life-style" className="hover:underline">
+                Lifestyle
+              </Link>
             </li>
             <li>
-              <Link href="/blogs?cat=student-life" className="hover:underline">Student Life</Link>
+              <Link href="/blogs?cat=student-life" className="hover:underline">
+                Student Life
+              </Link>
             </li>
           </ul>
         </aside>
@@ -48,14 +57,17 @@ const Blogs = async () => {
         <main className="md:col-span-3">
           <h1 className="text-3xl font-bold mb-6">Latest Blogs</h1>
 
-          <PostsSearch/>
+          <PostsSearch />
 
           {posts.length === 0 ? (
             <p className="text-gray-600">No blogs found.</p>
           ) : (
             <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((blog: Post) => (
-                <Card key={blog.slug} className="rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow duration-200 pt-0">
+                <Card
+                  key={blog.slug}
+                  className="rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow duration-200 pt-0"
+                >
                   <CardContent className="p-0">
                     <Link href={`/blogs/${blog.slug}`}>
                       <Image
@@ -89,4 +101,10 @@ const Blogs = async () => {
   )
 }
 
-export default Blogs
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <Blogs />
+    </Suspense>
+  )
+}

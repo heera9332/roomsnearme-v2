@@ -1,18 +1,20 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { QRCodeSVG } from 'qrcode.react'
 import '@/app/(frontend)/globals.css'
+import axios from 'axios'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { QRCodeSVG } from 'qrcode.react'
 import { Copy } from 'lucide-react'
-import Link from 'next/link' 
 import { Skeleton } from '@/components/ui/skeleton'
 import { Booking } from '@/payload-types'
+import { Suspense } from 'react'
+import Loader from '@/components/loader'
 
 const UPI_ID = process.env.UPI_ID!
 
-export default function PaymentPage() {
+function PaymentPage() {
   const searchParams = useSearchParams()
   const bookingCode = searchParams.get('booking-code')
 
@@ -127,5 +129,13 @@ export default function PaymentPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <PaymentPage />
+    </Suspense>
   )
 }

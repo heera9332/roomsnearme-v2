@@ -1,15 +1,16 @@
 'use client'
 
+import '@/app/(frontend)/globals.css'
+import Link from 'next/link'
+import Loader from '@/components/loader'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { axios } from '@/lib/axios'
-import '@/app/(frontend)/globals.css'
-import Link from 'next/link'
 import { Coins, Home, Printer } from 'lucide-react'
-import Loader from '@/components/loader'
 import { Booking } from '@/payload-types'
+import { Suspense } from 'react'
 
-export default function ThankYouPage() {
+function ThankYouPage() {
   const searchParams = useSearchParams()
   const bookingCode = searchParams.get('booking-code')
 
@@ -82,124 +83,134 @@ export default function ThankYouPage() {
   ))
 
   return (
-    <div className="max-w-7xl mx-auto py-4">
-      <div>
-        <div className="bg-green-100 border border-green-300 rounded p-6 mb-8 text-center">
-          <h1 className="text-3xl font-semibold mb-2">Thank You for Your Booking!</h1>
-          <div className="text-lg">
-            Your booking (<b>{booking.bookingCode}</b>) was successful.
+    <Suspense fallback={<Loader />}>
+      <div className="max-w-7xl mx-auto py-4">
+        <div>
+          <div className="bg-green-100 border border-green-300 rounded p-6 mb-8 text-center">
+            <h1 className="text-3xl font-semibold mb-2">Thank You for Your Booking!</h1>
+            <div className="text-lg">
+              Your booking (<b>{booking.bookingCode}</b>) was successful.
+            </div>
           </div>
-        </div>
 
-        <div className="mb-8">
-          <h2 className="text-xl font-bold mb-2">Booking Details</h2>
-          <div className="grid grid-cols-1 gap-2">
-            <div>
-              <b>Status:</b> {booking.status}
-            </div>
-            <div>
-              <b>Payment:</b> {booking.paymentStatus}
-            </div>
-            <div>
-              <b>Amount Paid:</b> ₹{booking.totalAmount}
-            </div>
-            {booking?.notes && (
-              <div>
-                <b>Notes:</b>{' '}
-                <ul>
-                  {booking?.notes.map((item) => {
-                    return <li key={item.id}>{item?.note}</li>
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="mb-8">
-          <h2 className="text-xl font-bold mb-2">Booked room</h2>
-          {items}
-        </div>
-
-        {booking.billing && (
           <div className="mb-8">
-            <h2 className="text-xl font-bold mb-2">Billing Details</h2>
-            <div>
+            <h2 className="text-xl font-bold mb-2">Booking Details</h2>
+            <div className="grid grid-cols-1 gap-2">
               <div>
-                <b>Name:</b> {booking.billing.first_name} {booking.billing.last_name}
+                <b>Status:</b> {booking.status}
               </div>
               <div>
-                <b>Email:</b> {booking.billing.email}
+                <b>Payment:</b> {booking.paymentStatus}
               </div>
               <div>
-                <b>Phone:</b> {booking.billing.phone}
+                <b>Amount Paid:</b> ₹{booking.totalAmount}
               </div>
-              <div>
-                <b>Address:</b>{' '}
-                {[
-                  booking.billing.address_1,
-                  booking.billing.address_2,
-                  booking.billing.city,
-                  booking.billing.state,
-                  booking.billing.postcode,
-                  booking.billing.country,
-                ]
-                  .filter(Boolean)
-                  .join(', ')}
-              </div>
+              {booking?.notes && (
+                <div>
+                  <b>Notes:</b>{' '}
+                  <ul>
+                    {booking?.notes.map((item) => {
+                      return <li key={item.id}>{item?.note}</li>
+                    })}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
-        )}
 
-        {booking.shipping && (
           <div className="mb-8">
-            <h2 className="text-xl font-bold mb-2">Shipping Details</h2>
-            <div>
+            <h2 className="text-xl font-bold mb-2">Booked room</h2>
+            {items}
+          </div>
+
+          {booking.billing && (
+            <div className="mb-8">
+              <h2 className="text-xl font-bold mb-2">Billing Details</h2>
               <div>
-                <b>Name:</b> {booking.shipping.first_name} {booking.shipping.last_name}
-              </div>
-              <div>
-                <b>Address:</b>{' '}
-                {[
-                  booking.shipping.address_1,
-                  booking.shipping.address_2,
-                  booking.shipping.city,
-                  booking.shipping.state,
-                  booking.shipping.postcode,
-                  booking.shipping.country,
-                ]
-                  .filter(Boolean)
-                  .join(', ')}
+                <div>
+                  <b>Name:</b> {booking.billing.first_name} {booking.billing.last_name}
+                </div>
+                <div>
+                  <b>Email:</b> {booking.billing.email}
+                </div>
+                <div>
+                  <b>Phone:</b> {booking.billing.phone}
+                </div>
+                <div>
+                  <b>Address:</b>{' '}
+                  {[
+                    booking.billing.address_1,
+                    booking.billing.address_2,
+                    booking.billing.city,
+                    booking.billing.state,
+                    booking.billing.postcode,
+                    booking.billing.country,
+                  ]
+                    .filter(Boolean)
+                    .join(', ')}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <hr />
-        <div className="text-center flex gap-2 items-center mt-4">
-          <button
-            onClick={() => window.print()}
-            className="flex gap-2 items-center cursor-pointer  px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
-          >
-            <Printer size={16} />
-            Print This Page
-          </button>
-          <Link
-            href="/"
-            className="flex gap-2 items-center   px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-          >
-            <Home size={16} />
-            Back to Home
-          </Link>
-          <Link
-            href={`/checkout/payment?booking-code=${bookingCode}`}
-            className="flex gap-2 items-center px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
-          >
-            <Coins size={16} />
-            Pay Now
-          </Link>
+          {booking.shipping && (
+            <div className="mb-8">
+              <h2 className="text-xl font-bold mb-2">Shipping Details</h2>
+              <div>
+                <div>
+                  <b>Name:</b> {booking.shipping.first_name} {booking.shipping.last_name}
+                </div>
+                <div>
+                  <b>Address:</b>{' '}
+                  {[
+                    booking.shipping.address_1,
+                    booking.shipping.address_2,
+                    booking.shipping.city,
+                    booking.shipping.state,
+                    booking.shipping.postcode,
+                    booking.shipping.country,
+                  ]
+                    .filter(Boolean)
+                    .join(', ')}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <hr />
+          <div className="text-center flex gap-2 items-center mt-4">
+            <button
+              onClick={() => window.print()}
+              className="flex gap-2 items-center cursor-pointer  px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
+            >
+              <Printer size={16} />
+              Print This Page
+            </button>
+            <Link
+              href="/"
+              className="flex gap-2 items-center   px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+            >
+              <Home size={16} />
+              Back to Home
+            </Link>
+            <Link
+              href={`/checkout/payment?booking-code=${bookingCode}`}
+              className="flex gap-2 items-center px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+            >
+              <Coins size={16} />
+              Pay Now
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </Suspense>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <ThankYouPage />
+    </Suspense>
   )
 }

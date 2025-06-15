@@ -1,12 +1,12 @@
 import '@/app/(frontend)/globals.css'
+import { Suspense } from 'react'
 import CitiesSlider from '@/components/cities-slider'
 import { RoomSearch } from '@/components/room-search'
-// import CitiesSlider from "@/components/cities-slider";
-// import BrowseByPropertyType from "@/components/property-types";
 import RoomsList from '@/components/rooms-list'
 import Link from 'next/link'
+import Loader from '@/components/loader'
 
-export default async function Home() {
+async function Home() {
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Hero Section */}
@@ -19,7 +19,7 @@ export default async function Home() {
 
       <section className="max-w-7xl md:mx-auto p-4 md:px-6 md:py-10">
         <CitiesSlider />
-      </section> 
+      </section>
 
       {/* Call to Action */}
       <section className="bg-[#003b95] text-white py-12 text-center flex flex-col gap-2">
@@ -84,5 +84,13 @@ export default async function Home() {
         </div>
       </section>
     </div>
+  )
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <Home />
+    </Suspense>
   )
 }

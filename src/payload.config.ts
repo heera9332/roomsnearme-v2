@@ -34,10 +34,7 @@ const emailTransport = nodemailerAdapter({
       pass: process.env.SMTP_PASS,
     },
   }),
-})
-
-// At the top of payload.config.ts
-console.log('EMAIL ADAPTER INIT:', typeof emailTransport)
+}) 
 
 export default buildConfig({
   admin: {
