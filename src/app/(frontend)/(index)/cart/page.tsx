@@ -21,8 +21,7 @@ function formatDate(dateStr: string | Date) {
 
 export default function CartPage() {
   const items = useCartStore((state) => state.items)
-  const removeFromCart = useCartStore((state) => state.removeFromCart)
-  const updateQuantity = useCartStore((state) => state.updateQuantity)
+  const removeFromCart = useCartStore((state) => state.removeFromCart) 
   const clearCart = useCartStore((state) => state.clearCart)
   const router = useRouter()
 

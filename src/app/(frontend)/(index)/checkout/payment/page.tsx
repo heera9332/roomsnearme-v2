@@ -6,17 +6,11 @@ import axios from 'axios'
 import { QRCodeSVG } from 'qrcode.react'
 import '@/app/(frontend)/globals.css'
 import { Copy } from 'lucide-react'
-import Link from 'next/link'
-import Loader from '@/components/loader'
+import Link from 'next/link' 
 import { Skeleton } from '@/components/ui/skeleton'
+import { Booking } from '@/payload-types'
 
-type Booking = {
-  amount: number
-  bookingCode: string
-  billing?: any
-}
-
-const UPI_ID = '8085589371@ybl' // Set your UPI ID here
+const UPI_ID = process.env.UPI_ID!
 
 export default function PaymentPage() {
   const searchParams = useSearchParams()
@@ -69,7 +63,7 @@ export default function PaymentPage() {
 
   const upiString = `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=${encodeURIComponent(
     booking.billing?.first_name || 'Customer',
-  )}&am=${booking.amount}&tn=Booking%20${booking.bookingCode}`
+  )}&am=${booking.totalAmount}&tn=Booking%20${booking.bookingCode}`
 
   const handleCopy = async () => {
     try {
@@ -93,7 +87,7 @@ export default function PaymentPage() {
 
         <div className="flex flex-col items-center gap-2 mb-8">
           <div className="text-gray-500 text-sm">Amount to Pay</div>
-          <div className="text-3xl font-bold text-green-700 mb-1">₹{booking.amount}</div>
+          <div className="text-3xl font-bold text-green-700 mb-1">₹{booking.totalAmount}</div>
         </div>
 
         <div className="flex flex-col items-center mb-4">
