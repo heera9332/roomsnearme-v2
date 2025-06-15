@@ -24,6 +24,10 @@ h1, h2, h3 {
   animation: l7 1s infinite;
 }
 
+.bg-primary {
+  background-color: #003b95;
+}
+
 @keyframes l7 {
   to {
     transform: rotate(0.5turn);

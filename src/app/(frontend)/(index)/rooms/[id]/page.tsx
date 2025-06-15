@@ -1,6 +1,6 @@
 'use client'
 
-import { RichText } from "@payloadcms/richtext-lexical/react";
+import { RichText } from '@payloadcms/richtext-lexical/react'
 import { useState, useEffect, use } from 'react'
 import { axios } from '@/lib/axios'
 import Link from 'next/link'
@@ -9,9 +9,9 @@ import { Card } from '@/components/ui/card'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarPlus, MessageCircleQuestion } from 'lucide-react'
 import { useCartStore } from '@/store/cart-store'
-import { useRouter } from "next/navigation";
-import Loader from "@/components/loader";
-import { Room } from "@/payload-types";
+import { useRouter } from 'next/navigation'
+import Loader from '@/components/loader'
+import { Room } from '@/payload-types'
 
 function formatDate(dateStr) {
   if (!dateStr) return 'N/A'
@@ -25,24 +25,25 @@ interface Args {
 }
 
 export default function RoomSinglePage({ params }: Args) {
-  const { id } = use(params); 
+  const { id } = use(params)
   const [room, setRoom] = useState<Room | null>(null)
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
-  const [vendor, setVendor] = useState("");
+  const [vendor, setVendor] = useState('')
 
   // Date state
   const [checkInDate, setCheckInDate] = useState<Date | null>(null)
   const [checkOutDate, setCheckOutDate] = useState<Date | null>(null)
 
   const addToCart = useCartStore((state) => state.addToCart)
-  const router = useRouter();
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchRoomById() {
       try {
         const res = await axios.get(`/api/rooms/${id}`)
-        setRoom(res.data.room || res.data) // adjust if API is different
+        setRoom(res?.data) // adjust if API is different
+        setVendor((_prev) => res?.data?.vendor)
       } catch (error) {
         setRoom(null)
       } finally {
@@ -55,7 +56,7 @@ export default function RoomSinglePage({ params }: Args) {
   if (loading) {
     return (
       <div className="mt-16 p-4">
-        <Loader/>
+        <Loader />
       </div>
     )
   }
@@ -71,8 +72,8 @@ export default function RoomSinglePage({ params }: Args) {
   // Handler for Add to Cart button
   function handleAddToCart() {
     if (!checkInDate || !checkOutDate) {
-      alert("Please select check-in and check-out dates.");
-      return;
+      alert('Please select check-in and check-out dates.')
+      return
     }
     addToCart({
       id: room?.id,
@@ -105,17 +106,39 @@ export default function RoomSinglePage({ params }: Args) {
           </div>
 
           <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 mb-2">
-            <div className="text-[16px]"><strong>Status:</strong> {room.status}</div>
-            <div className="text-[16px]"><strong>Price:</strong> ₹{room.pricePerMonth}/month</div>
-            <div className="text-[16px]"><strong>Type:</strong> {room.type}</div>
-            <div className="text-[16px]"><strong>Furnishing:</strong> {room.furnishing || 'N/A'}</div>
-            <div className="text-[16px]"><strong>Available From:</strong> {formatDate(room.availableFrom)}</div>
-            <div className="text-[16px]"><strong>Max Allowed Members:</strong> {room.maxAllowedMembers}</div>
-            <div className="text-[16px]"><strong>Area:</strong> {room.area || 'N/A'}</div>
-            <div className="text-[16px]"><strong>City:</strong> {room.city || 'N/A'}</div>
-            <div className="text-[16px]"><strong>State:</strong> {room.state || 'N/A'}</div>
-            <div className="text-[16px]"><strong>Created At:</strong> {formatDate(room.createdAt)}</div>
-            <div className="text-[16px]"><strong>Updated At:</strong> {formatDate(room.updatedAt)}</div>
+            <div className="text-[16px]">
+              <strong>Status:</strong> {room.status}
+            </div>
+            <div className="text-[16px]">
+              <strong>Price:</strong> ₹{room.pricePerMonth}/month
+            </div>
+            <div className="text-[16px]">
+              <strong>Type:</strong> {room.type}
+            </div>
+            <div className="text-[16px]">
+              <strong>Furnishing:</strong> {room.furnishing || 'N/A'}
+            </div>
+            <div className="text-[16px]">
+              <strong>Available From:</strong> {formatDate(room.availableFrom)}
+            </div>
+            <div className="text-[16px]">
+              <strong>Max Allowed Members:</strong> {room.maxAllowedMembers}
+            </div>
+            <div className="text-[16px]">
+              <strong>Area:</strong> {room.area || 'N/A'}
+            </div>
+            <div className="text-[16px]">
+              <strong>City:</strong> {room.city || 'N/A'}
+            </div>
+            <div className="text-[16px]">
+              <strong>State:</strong> {room.state || 'N/A'}
+            </div>
+            <div className="text-[16px]">
+              <strong>Created At:</strong> {formatDate(room.createdAt)}
+            </div>
+            <div className="text-[16px]">
+              <strong>Updated At:</strong> {formatDate(room.updatedAt)}
+            </div>
           </div>
 
           <div className="mt-4">
@@ -161,14 +184,16 @@ export default function RoomSinglePage({ params }: Args) {
                 />
               </div>
               <div className="mt-4">
-                <label htmlFor="quantity" className="font-medium">Quantity:</label>
+                <label htmlFor="quantity" className="font-medium">
+                  Quantity:
+                </label>
                 <input
                   id="quantity"
                   type="number"
                   min={1}
                   max={room.maxAllowedMembers || 10}
                   value={quantity}
-                  onChange={e => setQuantity(Number(e.target.value))}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
                   className="w-20 border rounded px-2 py-1 ml-2"
                   readOnly
                 />

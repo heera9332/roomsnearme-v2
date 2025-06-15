@@ -7,17 +7,7 @@ import '@/app/(frontend)/globals.css'
 import Link from 'next/link'
 import { Coins, Home, Printer } from 'lucide-react'
 import Loader from '@/components/loader'
-
-type Booking = {
-  bookingCode: string
-  status: string
-  paymentStatus: string
-  amount: number
-  billing?: any
-  shipping?: any
-  items?: Array<any>
-  notes?: string
-}
+import { Booking } from '@/payload-types'
 
 export default function ThankYouPage() {
   const searchParams = useSearchParams()
@@ -56,7 +46,7 @@ export default function ThankYouPage() {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto py-12 text-center text-lg">
-        <Loader/>
+        <Loader />
       </div>
     )
   }
@@ -86,7 +76,7 @@ export default function ThankYouPage() {
         <b>Qty:</b> {item.quantity}
       </div>
       <div>
-        <b>Price:</b> ₹{item.price}
+        <b>Price:</b> ₹{item.price}/month
       </div>
     </div>
   ))
@@ -111,18 +101,23 @@ export default function ThankYouPage() {
               <b>Payment:</b> {booking.paymentStatus}
             </div>
             <div>
-              <b>Amount Paid:</b> ₹{booking.amount}
+              <b>Amount Paid:</b> ₹{booking.totalAmount}
             </div>
-            {booking.notes && (
+            {booking?.notes && (
               <div>
-                <b>Notes:</b> {booking.notes}
+                <b>Notes:</b>{' '}
+                <ul>
+                  {booking?.notes.map((item) => {
+                    return <li key={item.id}>{item?.note}</li>
+                  })}
+                </ul>
               </div>
             )}
           </div>
         </div>
 
         <div className="mb-8">
-          <h2 className="text-xl font-bold mb-2">Booked Items</h2>
+          <h2 className="text-xl font-bold mb-2">Booked room</h2>
           {items}
         </div>
 

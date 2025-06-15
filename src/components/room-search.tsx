@@ -48,7 +48,7 @@ export const RoomSearch = () => {
             placeholder="Enter city"
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            className="px-4 py-2 rounded-md text-white focus:outline-none border text-gray-200"
+            className="px-4 py-2 rounded-md text-white focus:outline-none border text-white"
           />
           <datalist id="city-list">
             {cities.map((city) => (
@@ -62,7 +62,7 @@ export const RoomSearch = () => {
             placeholder="Search by keyword"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-4 py-2 rounded-md text-white focus:outline-none border text-gray-200"
+            className="px-4 py-2 rounded-md focus:outline-none border text-white"
           />
 
           <Button

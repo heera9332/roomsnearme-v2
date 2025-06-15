@@ -45,7 +45,7 @@ export default function CheckoutPage() {
 
   // Main email, name, role for the user
   const [loading, setLoading] = useState(false)
-  const [vendor, setVendor] = useState('')
+  const [vendorId, setVendorId] = useState<string | number>("");
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
@@ -55,7 +55,25 @@ export default function CheckoutPage() {
   const [shipping, setShipping] = useState({ ...emptyShipping })
   const [shippingSame, setShippingSame] = useState(true)
 
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  function getDaysDiff(checkIn: string, checkOut: string) {
+    if (!checkIn || !checkOut) return 1
+    const d1 = new Date(checkIn)
+    const d2 = new Date(checkOut)
+    const diff = Math.ceil((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24))
+    return diff > 0 ? diff : 1
+  }
+
+  function perDayPrice(item: any) {
+    return Math.round(item.price / 30) // assuming monthly price
+  }
+
+  function calculateItemTotal(item: any) {
+    const days = getDaysDiff(item.checkInDate, item.checkOutDate)
+    return perDayPrice(item) * days * item.quantity
+  }
+
+  const total = items.reduce((sum, item) => sum + calculateItemTotal(item), 0)
+
   const taxAmount = 0
 
   function handleBillingChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -76,7 +94,7 @@ export default function CheckoutPage() {
     const bookingPayload = {
       bookingCode: `BK-${Date.now()}`,
       user: '', // Set this from your auth/user context
-      vendor: '', // Set this from your room/vendor logic
+      vendor: vendorId, // Set this from your room/vendor logic
       items: items.map((item) => ({
         room: item.id,
         quantity: item.quantity,
@@ -88,8 +106,8 @@ export default function CheckoutPage() {
       billing,
       shipping: shippingData,
       status: 'pending',
-      taxAmount: total,
-      totalAmount: taxAmount,
+      taxAmount: taxAmount,
+      totalAmount: total,
       paymentStatus: 'unpaid',
     }
 
@@ -111,9 +129,12 @@ export default function CheckoutPage() {
   }
 
   useEffect(() => {
-    const vendorId = items[0];
-
-  },[])
+    console.log("---", items);
+    if (items.length) {
+      const vendorId = items[0]?.vendor?.id
+      setVendorId(vendorId);
+    }
+  }, [])
 
   return (
     <div className="max-w-7xl mx-auto py-4 grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -342,7 +363,7 @@ export default function CheckoutPage() {
                     </div>
                   )}
                 </div>
-                <div className="font-bold">₹{item.price * item.quantity}</div>
+                <div className="font-bold">₹{calculateItemTotal(item)}</div>
               </div>
             ))}
           </div>
