@@ -19,11 +19,7 @@ export default async function Home() {
 
       <section className="max-w-7xl md:mx-auto p-4 md:px-6 md:py-10">
         <CitiesSlider />
-      </section>
-
-      <section className="max-w-7xl md:mx-auto p-4 md:px-6 md:py-10 my-4">
-        {/* <BrowseByPropertyType /> */}
-      </section>
+      </section> 
 
       {/* Call to Action */}
       <section className="bg-[#003b95] text-white py-12 text-center flex flex-col gap-2">

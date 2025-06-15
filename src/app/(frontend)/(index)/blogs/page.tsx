@@ -3,7 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Viewport } from 'next'
 import { queryPosts } from '@/utils/api'
-import { Post } from '@/payload-types' 
+import { Post } from '@/payload-types'
+import { PostsSearch } from '@/components/posts-search'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -13,73 +14,78 @@ export const viewport: Viewport = {
 }
 
 export const metadata = {
-  title: 'Blogs | roomnearme',
-  description: 'Browse the latest blogs on roomnearme. Get updates on tech, lifestyle, and more.',
-  keywords: 'blogs, tech, lifestyle, roomnearme',
+  title: 'Blogs | roomsnearme',
+  description: 'Browse the latest blogs on roomsnearme. Get updates on tech, lifestyle, and more.',
+  keywords: 'blogs, tech, lifestyle, rooms, student life',
 }
 
 const Blogs = async () => {
   const posts: Post[] = await queryPosts({})
 
   return (
-    <>
-      <div className="">
-        <div className="min-h-[64vh] mt-16 flex flex-col md:flex-row p-[16px] md:p-0">
-          {/* Sidebar */}
-          <aside className="w-full md:w-1/6 bg-gray-100 p-4">
-            <h2 className="text-xl font-bold mb-4">Blogs Category</h2>
-            <ul>
-              <li>
-                <Link href="/blogs">All Blogs</Link>
-              </li>
-              <li>
-                <Link href="/blogs?cat=tech">Tech</Link>
-              </li>
-              <li>
-                <Link href="/blogs?cat=life-style">Lifestyle</Link>
-              </li>
-              <li>
-                <Link href="/blogs?cat=student-life#">Students</Link>
-              </li>
-            </ul>
-          </aside>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Sidebar */}
+        <aside className="md:col-span-1 bg-gray-100 rounded-lg p-4 shadow-sm h-fit">
+          <h2 className="text-xl font-bold mb-4">Categories</h2>
+          <ul className="space-y-2 text-blue-700 text-sm">
+            <li>
+              <Link href="/blogs" className="hover:underline">All Blogs</Link>
+            </li>
+            <li>
+              <Link href="/blogs?cat=tech" className="hover:underline">Tech</Link>
+            </li>
+            <li>
+              <Link href="/blogs?cat=life-style" className="hover:underline">Lifestyle</Link>
+            </li>
+            <li>
+              <Link href="/blogs?cat=student-life" className="hover:underline">Student Life</Link>
+            </li>
+          </ul>
+        </aside>
 
-          {/* Main content */}
-          <main className="w-full md:flex-1 p-4">
-            <h1 className="text-3xl font-bold mb-4">Blogs</h1>
-            <ul className="grid grid-cols-4 gap-2">
+        {/* Main Content */}
+        <main className="md:col-span-3">
+          <h1 className="text-3xl font-bold mb-6">Latest Blogs</h1>
+
+          <PostsSearch/>
+
+          {posts.length === 0 ? (
+            <p className="text-gray-600">No blogs found.</p>
+          ) : (
+            <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((blog: Post) => (
-                <Card
-                  key={blog.slug}
-                  className="border col-span-4 md:col-span-1 flex flex-col justify-start gap-0 "
-                >
-                  <CardContent>
-                    <Image
-                      className="max-h-[172px] object-cover w-full mb-2"
-                      src={blog?.featuredImage?.url}
-                      width={1000}
-                      height={1000}
-                      alt={blog.title}
-                    />
-                    <div className="post-excerpts">{blog.excerpt}</div>
-                  </CardContent>
-                  <CardFooter className="flex flex-col">
-                    <div className="w-full">
-                      <Link
-                        href={`/blogs/${blog.slug}`}
-                        className="mt-2 block text-[] w-full bg-gray-900 text-white px-4 py-2 hover:underline"
-                      >
-                        <h2 className="w-full text-xl font-semibold">{blog.title}</h2>
-                      </Link>
+                <Card key={blog.slug} className="rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow duration-200 pt-0">
+                  <CardContent className="p-0">
+                    <Link href={`/blogs/${blog.slug}`}>
+                      <Image
+                        src={blog?.featuredImage?.url || 'https://placehold.co/600x400'}
+                        alt={blog.title}
+                        width={600}
+                        height={400}
+                        className="w-full h-[180px] object-cover"
+                      />
+                    </Link>
+                    <div className="p-4">
+                      <h2 className="text-lg font-semibold mb-2 text-gray-900">{blog.title}</h2>
+                      <p className="text-sm text-gray-700 line-clamp-3">{blog.excerpt}</p>
                     </div>
+                  </CardContent>
+                  <CardFooter className="p-4 pt-0">
+                    <Link
+                      href={`/blogs/${blog.slug}`}
+                      className="text-blue-600 text-sm font-medium hover:underline"
+                    >
+                      Read More →
+                    </Link>
                   </CardFooter>
                 </Card>
               ))}
             </ul>
-          </main>
-        </div>
+          )}
+        </main>
       </div>
-    </>
+    </div>
   )
 }
 
