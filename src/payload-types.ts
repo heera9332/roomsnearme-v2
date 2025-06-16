@@ -331,7 +331,7 @@ export interface Room {
 export interface Booking {
   id: string;
   bookingCode: string;
-  user: string | User;
+  user?: (string | null) | User;
   items: {
     room: string | Room;
     quantity: number;

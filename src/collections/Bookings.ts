@@ -27,8 +27,8 @@ export const Bookings: CollectionConfig = {
       name: 'user',
       type: 'relationship',
       relationTo: 'users',
-      required: true,
       label: 'Booked By',
+      required: false,
     },
     {
       name: 'items',
@@ -177,32 +177,33 @@ export const Bookings: CollectionConfig = {
         try {
           let userId = data.user
           const billing = data.billing || {}
-          const bookingEmail = billing.email || data.email
-          const username = billing.phone || data.phone || data.username
+
+          const bookingEmail = billing?.email || data?.email
+          const username = billing?.phone || data?.phone || data?.username
 
           if (!userId && bookingEmail && username) {
-            // Look for existing user by email
             const users = await payload.find({
               collection: 'users',
               where: {
-                or: [{ email: bookingEmail }],
+                email: { equals: bookingEmail },
               },
               limit: 1,
             })
-            if (users.docs && users.docs.length > 0) {
+
+            if (users.docs?.length) {
               userId = users.docs[0].id
             } else {
-              // Create new user if not found
               const newUser = await payload.create({
                 collection: 'users',
                 data: {
                   email: bookingEmail,
-                  username: username,
-                  password: username, // For demo/dev. Use better password in prod!
-                  name: billing.first_name
-                    ? `${billing.first_name} ${billing.last_name || ''}`.trim()
-                    : username,
-                  role: 'customer',
+                  username,
+                  password: username,
+                  name:
+                    billing?.first_name || billing?.last_name
+                      ? `${billing.first_name || ''} ${billing.last_name || ''}`.trim()
+                      : username,
+                  roles: ['customer'],
                 },
                 disableVerificationEmail: true,
               })

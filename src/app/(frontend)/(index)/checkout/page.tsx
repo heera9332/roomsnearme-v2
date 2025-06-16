@@ -46,7 +46,7 @@ export default function CheckoutPage() {
 
   // Main email, name, role for the user
   const [loading, setLoading] = useState(false)
-  const [vendorId, setVendorId] = useState<string | number>("");
+  const [vendorId, setVendorId] = useState<string | number>('')
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [username, setUsername] = useState('')
@@ -114,6 +114,9 @@ export default function CheckoutPage() {
 
     try {
       setLoading(true)
+    
+      console.log(bookingPayload)
+
       const response = await axios.post('/api/bookings', bookingPayload)
       const data = response.data
 
@@ -130,12 +133,12 @@ export default function CheckoutPage() {
   }
 
   useEffect(() => {
-    console.log("---", items);
+    console.log('---', items)
     if (items.length) {
-      const vendorId = items[0]?.vendor?.id
-      setVendorId(vendorId);
+      const vendorId = items[0]?.vendor;
+      // @ts-ignore
+      setVendorId(vendorId)
     }
-    // @ts-ignore
   }, [])
 
   return (

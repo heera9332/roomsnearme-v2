@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import Loader from '@/components/loader'
 import { Room } from '@/payload-types'
 
+// @ts-ignore
 function formatDate(dateStr) {
   if (!dateStr) return 'N/A'
   const options = { year: 'numeric', month: 'long', day: 'numeric' }
