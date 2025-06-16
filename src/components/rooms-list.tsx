@@ -125,9 +125,9 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
                 />
                 <div className="p-4">
                   <h3 className="text-lg font-semibold">{room?.title?.slice(0, 24)}</h3>
-                  <p className="text-gray-600 mt-2">
+                  <div className="text-gray-600 mt-2">
                     <Content {...room} />
-                  </p>
+                  </div>
                   <p className="text-[#003b95] mt-2 font-bold">₹{room?.pricePerMonth}/month</p>
                   <Link href={`/rooms/${room.id}`}>
                     <Button className="cursor-pointer bg-[#003b95] text-white mt-3 px-4 py-2 rounded-md transition hover:bg-[#003b95]">

@@ -42,8 +42,8 @@ export const Posts: CollectionConfig = {
       required: true,
       label: 'Author',
       admin: {
-        position: "sidebar"
-      }
+        position: 'sidebar',
+      },
     },
     {
       name: 'publishedDate',
@@ -51,8 +51,8 @@ export const Posts: CollectionConfig = {
       required: true,
       label: 'Published Date',
       admin: {
-        position: "sidebar"
-      }
+        position: 'sidebar',
+      },
     },
     {
       name: 'status',
@@ -77,11 +77,11 @@ export const Posts: CollectionConfig = {
       },
     },
     {
-      label: "Likes",
-      type: "number",
-      name: "likes",
-      defaultValue: 0
-    }
+      label: 'Likes',
+      type: 'number',
+      name: 'likes',
+      defaultValue: 0,
+    },
   ],
   timestamps: true,
 }
