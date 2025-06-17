@@ -126,14 +126,15 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
                 <div className="p-4">
                   <h3 className="text-lg font-semibold">{room?.title?.slice(0, 24)}</h3>
                   <div className="text-gray-600 mt-2">
-                    <Content {...room} />
+                    <p>
+                      <strong>Area: </strong>
+                      {room?.area}
+                    </p>
                   </div>
                   <p className="text-[#003b95] mt-2 font-bold">₹{room?.pricePerMonth}/month</p>
-                  <Link href={`/rooms/${room.id}`}>
-                    <Button className="cursor-pointer bg-[#003b95] text-white mt-3 px-4 py-2 rounded-md transition hover:bg-[#003b95]">
-                      View info.
-                    </Button>
-                  </Link>
+                  <Button className="cursor-pointer bg-[#003b95] text-white mt-3 px-4 py-2 rounded-md transition hover:bg-[#003b95]">
+                    View info.
+                  </Button>
                 </div>
               </Link>
             </div>
@@ -144,7 +145,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
       </div>
 
       {/* Pagination */}
-      {(showPagination && rooms.length) ? (
+      {showPagination && rooms.length ? (
         <div className="flex justify-center items-center gap-2 mt-6">
           <Button
             className="px-3 py-1"
@@ -171,7 +172,9 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
             Next
           </Button>
         </div>
-      ): ""}
+      ) : (
+        ''
+      )}
     </div>
   )
 }

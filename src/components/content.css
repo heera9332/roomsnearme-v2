@@ -1,0 +1,26 @@
+/* styles/payload-richtext.css */
+.payload-richtext {
+  font-family: inherit;
+  line-height: 1.7;
+  color: #212529;
+}
+.payload-richtext h1, .payload-richtext h2, .payload-richtext h3, .payload-richtext h4, .payload-richtext h5, .payload-richtext h6 {
+  font-weight: 700;
+}
+.payload-richtext a {
+  color: #003580;
+  text-decoration: underline;
+}
+.payload-richtext ul, .payload-richtext ol {
+  margin-left: 1.25rem;
+}
+.payload-richtext img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.25rem 0;
+}
+
+.payload-richtext .list-bullet {
+  list-style-type: disc;
+}

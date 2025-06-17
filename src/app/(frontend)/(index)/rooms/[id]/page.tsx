@@ -12,6 +12,10 @@ import { useCartStore } from '@/store/cart-store'
 import { useRouter } from 'next/navigation'
 import Loader from '@/components/loader'
 import { Room } from '@/payload-types'
+import RoomGallery from '@/components/room-gallary'
+import Content from '@/components/content'
+import Spacer from '@/components/spacer'
+import { getUniquePhotos } from '@/lib/utils'
 
 // @ts-ignore
 function formatDate(dateStr) {
@@ -89,21 +93,33 @@ export default function RoomSinglePage({ params }: Args) {
     router.push('/checkout')
   }
 
+  const mergedPhotos = getUniquePhotos([...(room?.photos || []), room?.featuredImage])
+
   return (
     <div className="mt-16 p-4 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-4">{room?.title}</h1>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-9">
-          <Image
-            width={960}
-            height={720}
-            src={room.featuredImage?.url || 'https://placehold.co/960x720'}
-            alt={room.featuredImage?.alt || 'Room Image'}
-            className="w-full h-1/2 object-cover rounded-lg mb-6"
-          />
+          {!room?.photos?.length && (
+            <Image
+              width={960}
+              height={720}
+              src={room.featuredImage?.url || 'https://placehold.co/960x720'}
+              alt={room.featuredImage?.alt || 'Room Image'}
+              className="w-full h-1/2 object-cover rounded-lg mb-6"
+            />
+          )}
+
+          {mergedPhotos.length > 0 && <RoomGallery photos={mergedPhotos} />}
+
+          <Spacer />
 
           <div className="mb-4">
-            <RichText data={room?.content} />
+            <Spacer />
+            <h2 className="font-bold text-2xl">About</h2>
+            <Spacer />
+
+            <Content {...room} />
           </div>
 
           <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 mb-2">
