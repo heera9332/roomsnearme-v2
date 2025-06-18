@@ -19,6 +19,8 @@ import { Bookings } from '@/collections/Bookings'
 import { Rooms } from '@/collections/Rooms'
 import { Reviews } from './collections/Reviews'
 
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -133,5 +135,15 @@ export default buildConfig({
         payment: true,
       },
     }),
+
+    // vercelBlobStorage({
+    //    enabled: true,collections: {
+    //     media: true,
+    //     'media-with-prefix': {
+    //       prefix: 'roomsnearme',
+    //     },
+    //   },
+    //    token: process.env.ROOMSNEARME_READ_WRITE_TOKEN,
+    // })
   ],
 })

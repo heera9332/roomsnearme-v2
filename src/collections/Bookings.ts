@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { isAdmin, isVendor, isLoggedIn } from '@/access'
+import { isAdmin, isVendor, canReadOwnBooking } from '@/access'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
@@ -12,7 +12,7 @@ export const Bookings: CollectionConfig = {
   access: {
     read: () => true,
     create: () => true,
-    update: ({ req }) => isAdmin(req) || isVendor(req),
+    update: ({ req }) => isAdmin({req}) || isVendor({req}) || canReadOwnBooking({req}),
     delete: isAdmin,
   },
   fields: [

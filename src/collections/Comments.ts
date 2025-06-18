@@ -1,3 +1,4 @@
+import { isAdmin } from "@/access";
 import { CollectionConfig } from "payload";
 
 export const Comments: CollectionConfig = {
@@ -8,7 +9,9 @@ export const Comments: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: () => true,
+    create: ({req}) => isAdmin({req}),
+    update: ({req}) => isAdmin({req}),
+    delete: ({req}) => isAdmin({req}),
   },
   fields: [
     {
@@ -56,7 +59,7 @@ export const Comments: CollectionConfig = {
   hooks: {
     beforeChange: [
       async ({ req, data }) => {
-        const ip = req?.headers?.["x-forwarded-for"] || req?.connection?.remoteAddress || "";
+        const ip = req?.headers?.get("x-forwarded-for");
         return {
           ...data,
           ipAddress: typeof ip === "string" ? ip : Array.isArray(ip) ? ip[0] : "",

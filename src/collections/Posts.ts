@@ -1,3 +1,4 @@
+import { isAdmin } from '@/access'
 import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
@@ -8,6 +9,9 @@ export const Posts: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: ({req}) => isAdmin({req}),
+    update: ({req}) => isAdmin({req}),
+    delete: ({req}) => isAdmin({req}),
   },
   admin: {
     useAsTitle: 'title',

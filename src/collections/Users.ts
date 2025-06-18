@@ -1,3 +1,4 @@
+import { isAdmin } from '@/access'
 import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
@@ -5,7 +6,27 @@ export const Users: CollectionConfig = {
   auth: {
     loginWithUsername: true,
   },
-  access: {},
+  access: {
+    // Allow anyone to sign up (if you want public signup; otherwise restrict as needed)
+    create: () => true,
+
+    // Admins can read any user. Users can only read their own profile.
+    read: ({ req, id }) => {
+      if (isAdmin({ req })) return true
+      if (req.user && id) return req.user.id === id // Only allow self
+      return false
+    },
+
+    // Admins can update any user. Users can only update their own profile.
+    update: ({ req, id }) => {
+      if (isAdmin({ req })) return true
+      if (req.user && id) return req.user.id === id // Only allow self
+      return false
+    },
+
+    // Only admins can delete users.
+    delete: isAdmin,
+  },
   admin: {
     defaultColumns: ['name', 'email', 'username'],
     useAsTitle: 'name',
@@ -22,7 +43,7 @@ export const Users: CollectionConfig = {
       label: 'Email',
       type: 'email',
       required: true,
-      unique: true
+      unique: true,
     },
     {
       name: 'username',
@@ -37,7 +58,7 @@ export const Users: CollectionConfig = {
       type: 'select',
       options: ['customer', 'vendor', 'admin'],
       defaultValue: 'customer',
-      hasMany: true
+      hasMany: true,
     },
     {
       name: 'billing',

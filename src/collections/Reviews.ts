@@ -1,3 +1,4 @@
+import { isAdmin, isLoggedIn } from '@/access'
 import type { CollectionConfig } from 'payload'
 
 export const Reviews: CollectionConfig = {
@@ -12,9 +13,9 @@ export const Reviews: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: ({ req }) => !!req.user,
-    update: ({ req }) => req.user?.role === 'admin',
-    delete: ({ req }) => req.user?.role === 'admin',
+    create: ({ req }) => isLoggedIn({ req }),
+    update: ({ req }) => isAdmin({ req }),
+    delete: ({ req }) => isAdmin({ req }),
   },
   fields: [
     {

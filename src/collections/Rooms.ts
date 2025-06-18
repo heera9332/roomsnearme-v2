@@ -9,8 +9,12 @@ export const Rooms: CollectionConfig = {
   },
   access: {
     read: () => true,
-    create: isVendor,
-    update: ({ req }) => true,
+    create: ({ req }) => {
+      return isAdmin({ req }) || isVendor({ req });
+    },
+    update: ({ req }) => {
+      return isAdmin({ req }) || isVendor({ req });
+    },
     delete: isAdmin,
   },
   fields: [

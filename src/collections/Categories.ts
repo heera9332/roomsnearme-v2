@@ -1,3 +1,4 @@
+import { isAdmin } from '@/access'
 import type { CollectionConfig } from 'payload'
 
 export const Categories: CollectionConfig = {
@@ -11,6 +12,9 @@ export const Categories: CollectionConfig = {
   },
   access: {
     read: () => true,
+    create: ({ req }) => isAdmin({ req }),
+    update: ({ req }) => isAdmin({ req }),
+    delete: ({ req }) => isAdmin({ req }),
   },
   fields: [
     {
@@ -24,7 +28,7 @@ export const Categories: CollectionConfig = {
       required: true,
     },
     {
-      name: 'posts', // Ensure this matches an actual collection slug
+      name: 'posts',
       type: 'relationship',
       relationTo: 'posts',
       hasMany: true,
