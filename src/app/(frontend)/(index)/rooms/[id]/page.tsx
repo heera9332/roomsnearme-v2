@@ -218,8 +218,9 @@ export default function RoomSinglePage({ params }: Args) {
               <button
                 className="cursor-pointer mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition w-full"
                 onClick={handleAddToCart}
+                disabled={loading}
               >
-                Add to Cart & Checkout
+                {loading ? "Processing" : "Add to Cart & Checkout"}
               </button>
             </div>
           </Card>
