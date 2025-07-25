@@ -19,7 +19,8 @@ import { Bookings } from '@/collections/Bookings'
 import { Rooms } from '@/collections/Rooms'
 import { Reviews } from './collections/Reviews'
 
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { s3Storage } from '@payloadcms/storage-s3'
+
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -136,14 +137,22 @@ export default buildConfig({
       },
     }),
 
-    // vercelBlobStorage({
-    //    enabled: true,collections: {
-    //     media: true,
-    //     'media-with-prefix': {
-    //       prefix: 'roomsnearme',
-    //     },
-    //   },
-    //    token: process.env.ROOMSNEARME_READ_WRITE_TOKEN,
-    // })
+    s3Storage({
+      collections: {
+        media: {
+          prefix: "media",
+        },
+      },
+      bucket: process.env.S3_BUCKET!,
+      config: {
+        forcePathStyle: true,
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        },
+        region: process.env.S3_REGION,
+        endpoint: process.env.S3_ENDPOINT,
+      },
+    }),
   ],
 })

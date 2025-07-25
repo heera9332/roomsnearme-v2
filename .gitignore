@@ -47,3 +47,5 @@ dist
 node_modules
 *.lock
 *.env
+package-lock.json
+bun-lock.json

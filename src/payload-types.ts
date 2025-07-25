@@ -138,28 +138,28 @@ export interface User {
   name?: string | null;
   roles?: ('customer' | 'vendor' | 'admin')[] | null;
   billing?: {
-    first_name?: string | null;
-    last_name?: string | null;
-    company?: string | null;
-    address_1?: string | null;
-    address_2?: string | null;
-    city?: string | null;
-    state?: string | null;
-    postcode?: string | null;
-    country?: string | null;
-    email?: string | null;
-    phone?: string | null;
+    billing_first_name?: string | null;
+    billing_last_name?: string | null;
+    billing_company?: string | null;
+    billing_address_1?: string | null;
+    billing_address_2?: string | null;
+    billing_city?: string | null;
+    billing_state?: string | null;
+    billing_postcode?: string | null;
+    billing_country?: string | null;
+    billing_email?: string | null;
+    billing_phone?: string | null;
   };
   shipping?: {
-    first_name?: string | null;
-    last_name?: string | null;
-    company?: string | null;
-    address_1?: string | null;
-    address_2?: string | null;
-    city?: string | null;
-    state?: string | null;
-    postcode?: string | null;
-    country?: string | null;
+    shipping_first_name?: string | null;
+    shipping_last_name?: string | null;
+    shipping_company?: string | null;
+    shipping_address_1?: string | null;
+    shipping_address_2?: string | null;
+    shipping_city?: string | null;
+    shipping_state?: string | null;
+    shipping_postcode?: string | null;
+    shipping_country?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -180,6 +180,7 @@ export interface User {
 export interface Media {
   id: string;
   alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -758,30 +759,30 @@ export interface UsersSelect<T extends boolean = true> {
   billing?:
     | T
     | {
-        first_name?: T;
-        last_name?: T;
-        company?: T;
-        address_1?: T;
-        address_2?: T;
-        city?: T;
-        state?: T;
-        postcode?: T;
-        country?: T;
-        email?: T;
-        phone?: T;
+        billing_first_name?: T;
+        billing_last_name?: T;
+        billing_company?: T;
+        billing_address_1?: T;
+        billing_address_2?: T;
+        billing_city?: T;
+        billing_state?: T;
+        billing_postcode?: T;
+        billing_country?: T;
+        billing_email?: T;
+        billing_phone?: T;
       };
   shipping?:
     | T
     | {
-        first_name?: T;
-        last_name?: T;
-        company?: T;
-        address_1?: T;
-        address_2?: T;
-        city?: T;
-        state?: T;
-        postcode?: T;
-        country?: T;
+        shipping_first_name?: T;
+        shipping_last_name?: T;
+        shipping_company?: T;
+        shipping_address_1?: T;
+        shipping_address_2?: T;
+        shipping_city?: T;
+        shipping_state?: T;
+        shipping_postcode?: T;
+        shipping_country?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -800,6 +801,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

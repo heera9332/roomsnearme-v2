@@ -14,7 +14,8 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+      defaultValue: "rooms near me"
     },
   ],
-  upload: true,
+  // upload: true,
 }
