@@ -115,18 +115,20 @@ export interface Config {
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    username: string;
+    email: string;
+    password: string;
   };
   login: {
+    email: string;
     password: string;
-    username: string;
   };
   registerFirstUser: {
+    email: string;
     password: string;
-    username: string;
   };
   unlock: {
-    username: string;
+    email: string;
+    password: string;
   };
 }
 /**
@@ -136,35 +138,11 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   name?: string | null;
+  username: string;
   roles?: ('customer' | 'vendor' | 'admin')[] | null;
-  billing?: {
-    billing_first_name?: string | null;
-    billing_last_name?: string | null;
-    billing_company?: string | null;
-    billing_address_1?: string | null;
-    billing_address_2?: string | null;
-    billing_city?: string | null;
-    billing_state?: string | null;
-    billing_postcode?: string | null;
-    billing_country?: string | null;
-    billing_email?: string | null;
-    billing_phone?: string | null;
-  };
-  shipping?: {
-    shipping_first_name?: string | null;
-    shipping_last_name?: string | null;
-    shipping_company?: string | null;
-    shipping_address_1?: string | null;
-    shipping_address_2?: string | null;
-    shipping_city?: string | null;
-    shipping_state?: string | null;
-    shipping_postcode?: string | null;
-    shipping_country?: string | null;
-  };
   updatedAt: string;
   createdAt: string;
   email: string;
-  username: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
   salt?: string | null;
@@ -755,39 +733,11 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  username?: T;
   roles?: T;
-  billing?:
-    | T
-    | {
-        billing_first_name?: T;
-        billing_last_name?: T;
-        billing_company?: T;
-        billing_address_1?: T;
-        billing_address_2?: T;
-        billing_city?: T;
-        billing_state?: T;
-        billing_postcode?: T;
-        billing_country?: T;
-        billing_email?: T;
-        billing_phone?: T;
-      };
-  shipping?:
-    | T
-    | {
-        shipping_first_name?: T;
-        shipping_last_name?: T;
-        shipping_company?: T;
-        shipping_address_1?: T;
-        shipping_address_2?: T;
-        shipping_city?: T;
-        shipping_state?: T;
-        shipping_postcode?: T;
-        shipping_country?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
-  username?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
   salt?: T;
