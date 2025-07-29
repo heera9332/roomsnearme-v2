@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Card } from '@/components/ui/card'
 import { Calendar } from '@/components/ui/calendar'
-import { CalendarPlus, MessageCircleQuestion } from 'lucide-react'
+import { CalendarPlus, MessageCircleQuestion, MapPin } from 'lucide-react'
 import { useCartStore } from '@/store/cart-store'
 import { useRouter } from 'next/navigation'
 import Loader from '@/components/loader'
@@ -34,9 +34,6 @@ export default function RoomSinglePage({ params }: Args) {
   const [room, setRoom] = useState<Room | null>(null)
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
-  const [vendor, setVendor] = useState('')
-
-  // Date state
   const [checkInDate, setCheckInDate] = useState<Date | null>(null)
   const [checkOutDate, setCheckOutDate] = useState<Date | null>(null)
 
@@ -47,9 +44,8 @@ export default function RoomSinglePage({ params }: Args) {
     async function fetchRoomById() {
       try {
         const res = await axios.get(`/api/rooms/${id}`)
-        setRoom(res?.data) // adjust if API is different
-        setVendor((_prev) => res?.data?.vendor)
-      } catch (error) {
+        setRoom(res.data)
+      } catch {
         setRoom(null)
       } finally {
         setLoading(false)
@@ -74,43 +70,42 @@ export default function RoomSinglePage({ params }: Args) {
     )
   }
 
-  // Handler for Add to Cart button
   function handleAddToCart() {
     if (!checkInDate || !checkOutDate) {
       alert('Please select check-in and check-out dates.')
       return
     }
     addToCart({
-      id: room?.id,
-      title: room?.title,
-      price: room?.pricePerMonth,
+      id: room.id,
+      title: room.title,
+      price: room.pricePerMonth,
       quantity,
-      vendor: room?.vendor,
-      featuredImage: room?.featuredImage,
+      vendor: room.vendor,
+      featuredImage: room.featuredImage,
       checkInDate,
       checkOutDate,
     })
     router.push('/checkout')
   }
 
-  const mergedPhotos = getUniquePhotos([...(room?.photos || []), room?.featuredImage])
+  const mergedPhotos = getUniquePhotos([...(room.photos || []), room.featuredImage])
 
   return (
     <div className="mt-16 p-4 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">{room?.title}</h1>
+      <h1 className="text-3xl font-bold mb-4">{room.title}</h1>
       <div className="grid grid-cols-12 gap-4">
+        {/* Main content */}
         <div className="col-span-12 md:col-span-9">
-          {!room?.photos?.length && (
+          {!room.photos?.length && (
             <Image
               width={960}
               height={720}
               src={room.featuredImage?.url || 'https://placehold.co/960x720'}
               alt={room.featuredImage?.alt || 'Room Image'}
-              className="w-full h-1/2 object-cover rounded-lg mb-6"
+              className="w-full max-h-[512px] object-cover rounded-lg mb-6"
             />
           )}
-
-          {mergedPhotos.length > 0 && <RoomGallery photos={mergedPhotos} />}
+          {mergedPhotos.length > 1 && <RoomGallery photos={mergedPhotos} />}
 
           <Spacer />
 
@@ -118,50 +113,27 @@ export default function RoomSinglePage({ params }: Args) {
             <Spacer />
             <h2 className="font-bold text-2xl">About</h2>
             <Spacer />
-
             <Content {...room} />
           </div>
 
           <div className="grid grid-cols-2 gap-4 text-sm text-gray-700 mb-2">
-            <div className="text-[16px]">
-              <strong>Status:</strong> {room.status}
-            </div>
-            <div className="text-[16px]">
-              <strong>Price:</strong> ₹{room.pricePerMonth}/month
-            </div>
-            <div className="text-[16px]">
-              <strong>Type:</strong> {room.type}
-            </div>
-            <div className="text-[16px]">
-              <strong>Furnishing:</strong> {room.furnishing || 'N/A'}
-            </div>
-            <div className="text-[16px]">
-              <strong>Available From:</strong> {formatDate(room.availableFrom)}
-            </div>
-            <div className="text-[16px]">
-              <strong>Max Allowed Members:</strong> {room.maxAllowedMembers}
-            </div>
-            <div className="text-[16px]">
-              <strong>Area:</strong> {room.area || 'N/A'}
-            </div>
-            <div className="text-[16px]">
-              <strong>City:</strong> {room.city || 'N/A'}
-            </div>
-            <div className="text-[16px]">
-              <strong>State:</strong> {room.state || 'N/A'}
-            </div>
-            <div className="text-[16px]">
-              <strong>Created At:</strong> {formatDate(room.createdAt)}
-            </div>
-            <div className="text-[16px]">
-              <strong>Updated At:</strong> {formatDate(room.updatedAt)}
-            </div>
+            <div className="text-[16px]"><strong>Status:</strong> {room.status}</div>
+            <div className="text-[16px]"><strong>Price:</strong> ₹{room.pricePerMonth}/month</div>
+            <div className="text-[16px]"><strong>Type:</strong> {room.type}</div>
+            <div className="text-[16px]"><strong>Furnishing:</strong> {room.furnishing || 'N/A'}</div>
+            <div className="text-[16px]"><strong>Available From:</strong> {formatDate(room.availableFrom)}</div>
+            <div className="text-[16px]"><strong>Max Allowed Members:</strong> {room.maxAllowedMembers}</div>
+            <div className="text-[16px]"><strong>Area:</strong> {room.area || 'N/A'}</div>
+            <div className="text-[16px]"><strong>City:</strong> {room.city || 'N/A'}</div>
+            <div className="text-[16px]"><strong>State:</strong> {room.state || 'N/A'}</div>
+            <div className="text-[16px]"><strong>Created At:</strong> {formatDate(room.createdAt)}</div>
+            <div className="text-[16px]"><strong>Updated At:</strong> {formatDate(room.updatedAt)}</div>
           </div>
 
           <div className="mt-4">
             <strong>Amenities:</strong>
             {room.amenities?.length ? (
-              room.amenities.map((am: any) => (
+              room.amenities.map((am) => (
                 <span
                   key={am.id}
                   className="text-sm text-green-700 mx-1 px-2 py-1 rounded-md bg-green-100"
@@ -173,9 +145,44 @@ export default function RoomSinglePage({ params }: Args) {
               <span> None</span>
             )}
           </div>
+
+          {/* Responsive Google Map Card */}
+          <Card className="border p-4 shadow-sm block text-center mt-4">
+            <h2 className="flex gap-2 text-xl text-left font-bold mb-4 items-center">
+              <MapPin size={20} />
+              <span>Location</span>
+            </h2>
+
+            <div className="w-full overflow-hidden rounded-lg">
+              <div className="relative pb-[56.25%] h-0">
+                <iframe
+                  src={(room.googleMapEmbed.match(/src="([^"]+)"/) || [])[1] || ''}
+                  className="absolute top-0 left-0 w-full h-full"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            </div>
+
+            <p className="mt-2">
+              <Link
+                href={room.googleMapLink || '#'}
+                className="text-blue-600"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on Google Maps
+              </Link>
+            </p>
+          </Card> 
+
         </div>
-        {/* SIDEBAR with calendars and add-to-cart */}
-        <div className="col-span-12 md:col-span-3">
+
+        {/* Sidebar */}
+        <div className="col-span-12 md:col-span-3 mt-4 md:mt-0">
+          {/* Availability Card */}
           <Card className="border p-4 shadow-sm block text-center mb-4">
             <h2 className="text-xl text-left font-bold mb-4 flex gap-2 items-center">
               <CalendarPlus size={20} />
@@ -201,9 +208,7 @@ export default function RoomSinglePage({ params }: Args) {
                 />
               </div>
               <div className="mt-4">
-                <label htmlFor="quantity" className="font-medium">
-                  Quantity:
-                </label>
+                <label htmlFor="quantity" className="font-medium">Quantity:</label>
                 <input
                   id="quantity"
                   type="number"
@@ -220,48 +225,29 @@ export default function RoomSinglePage({ params }: Args) {
                 onClick={handleAddToCart}
                 disabled={loading}
               >
-                {loading ? "Processing" : "Add to Cart & Checkout"}
+                {loading ? 'Processing' : 'Add to Cart & Checkout'}
               </button>
             </div>
           </Card>
 
-          {/* ...other sidebar cards unchanged... */}
+          {/* Help Card */}
           <Card className="border p-4 shadow-sm block text-center mb-4">
             <h2 className="flex gap-2 text-xl text-left font-bold mb-4 items-center">
               <MessageCircleQuestion size={20} /> <span>Help</span>
             </h2>
-            <div>
-              <p>
-                <Link
-                  href={`https://wa.me/918085589371?text=${encodeURIComponent(
-                    `Hi, I am booking this room - https://roomsnearme.in/rooms/${room.id}, want some help`,
-                  )}`}
-                  className="px-2 text-blue-600 cursor-pointer"
-                >
-                  Click here
-                </Link>
-                to message us on WhatsApp
-              </p>
-            </div>
-          </Card>
-
-          <Card className="border p-4 shadow-sm block text-center mb-4">
-            <h2 className="flex gap-2 text-xl text-left font-bold mb-4 items-center">
-              <MessageCircleQuestion size={20} /> <span>Google Map</span>
-            </h2>
-            <div>
-              <p>
-                <Link
-                  href={room?.googleMapLink || '#'}
-                  className="px-2 text-blue-600 cursor-pointer"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Click here
-                </Link>
-                to view on Google Maps
-              </p>
-            </div>
+            <p>
+              <Link
+                href={`https://wa.me/918085589371?text=${encodeURIComponent(
+                  `Hi, I am booking this room - https://roomsnearme.in/rooms/${room.id}, want some help`
+                )}`}
+                className="text-blue-600"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Click here
+              </Link>{' '}
+              to message us on WhatsApp
+            </p>
           </Card>
         </div>
       </div>
