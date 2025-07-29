@@ -97,5 +97,8 @@ export const Reviews: CollectionConfig = {
       ],
     },
   ],
+  versions: {
+    drafts: true,
+  },
   timestamps: true,
 }

@@ -10,10 +10,10 @@ export const Rooms: CollectionConfig = {
   access: {
     read: () => true,
     create: ({ req }) => {
-      return isAdmin({ req }) || isVendor({ req });
+      return isAdmin({ req }) || isVendor({ req })
     },
     update: ({ req }) => {
-      return isAdmin({ req }) || isVendor({ req });
+      return isAdmin({ req }) || isVendor({ req })
     },
     delete: isAdmin,
   },
@@ -177,5 +177,8 @@ export const Rooms: CollectionConfig = {
       type: 'relationship',
     },
   ],
+  versions: {
+    drafts: true,
+  },
   timestamps: true,
 }

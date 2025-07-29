@@ -3,15 +3,18 @@ import type { CollectionConfig } from 'payload'
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
+  versions: {
+    drafts: true,
+  },
   labels: {
     singular: 'Post',
     plural: 'Posts',
   },
   access: {
     read: () => true,
-    create: ({req}) => isAdmin({req}),
-    update: ({req}) => isAdmin({req}),
-    delete: ({req}) => isAdmin({req}),
+    create: ({ req }) => isAdmin({ req }),
+    update: ({ req }) => isAdmin({ req }),
+    delete: ({ req }) => isAdmin({ req }),
   },
   admin: {
     useAsTitle: 'title',
@@ -22,6 +25,7 @@ export const Posts: CollectionConfig = {
       type: 'text',
       required: true,
       label: 'Title',
+      localized: true
     },
     {
       name: 'slug',
@@ -33,11 +37,13 @@ export const Posts: CollectionConfig = {
       name: 'excerpt',
       type: 'textarea',
       label: 'Excerpt',
+      localized: true
     },
     {
       name: 'content',
       type: 'richText',
       label: 'Content',
+      localized: true
     },
     {
       name: 'author',
@@ -54,19 +60,6 @@ export const Posts: CollectionConfig = {
       type: 'date',
       required: true,
       label: 'Published Date',
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'status',
-      type: 'select',
-      options: [
-        { label: 'Draft', value: 'draft' },
-        { label: 'Published', value: 'published' },
-        { label: 'Trash', value: 'trash' },
-      ],
-      defaultValue: 'draft',
       admin: {
         position: 'sidebar',
       },

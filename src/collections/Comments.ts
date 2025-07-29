@@ -67,5 +67,8 @@ export const Comments: CollectionConfig = {
       },
     ],
   },
+  versions: {
+    drafts: true,
+  },
   timestamps: true,
 };
