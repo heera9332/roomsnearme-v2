@@ -31,7 +31,7 @@ export const RoomSearch = () => {
   return (
     <section className="relative w-full h-[550px] md:h-[750px] bg-[url('/api/media/file/hero-img.jpg')] bg-center bg-cover flex items-center justify-center bg-white">
       <div className="bg-[#003b95] bg-opacity-50 p-4 md:p-6 rounded-lg text-center m-4 ">
-        <h1 className="text-white text-4xl font-bold mb-4">
+        <h1 className="!text-white text-4xl font-bold mb-4">
           Find Your Perfect Stay
         </h1>
         <p className="text-white mb-6">

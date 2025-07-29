@@ -7,6 +7,7 @@ import { Post } from '@/payload-types'
 import { PostsSearch } from '@/components/posts-search'
 import { Suspense } from 'react'
 import Loader from '@/components/loader'
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -66,7 +67,7 @@ const Blogs = async () => {
               {posts.map((blog: Post) => (
                 <Card
                   key={blog.slug}
-                  className="rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow duration-200 pt-0"
+                  className="rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow duration-200 py-0"
                 >
                   <CardContent className="p-0">
                     <Link href={`/blogs/${blog.slug}`}>
@@ -78,7 +79,7 @@ const Blogs = async () => {
                         className="w-full h-[180px] object-cover"
                       />
                     </Link>
-                    <div className="p-4">
+                    <div className="p-4 pb-0">
                       <h2 className="text-lg font-semibold mb-2 text-gray-900">{blog.title}</h2>
                       <p className="text-sm text-gray-700 line-clamp-3">{blog.excerpt}</p>
                     </div>

@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Column 1 - About */}
         <div>
-          <h2 className="text-white text-lg font-semibold mb-4">
+          <h2 className="!text-white text-lg font-semibold mb-4">
             Rooms Near Me
           </h2>
           <p className="text-gray-500">
@@ -19,7 +19,7 @@ export default function Footer() {
 
         {/* Column 2 - Quick Links */}
         <div>
-          <h3 className="text-white text-lg font-semibold mb-4">Quick Links</h3>
+          <h3 className="!text-white text-lg font-semibold mb-4">Quick Links</h3>
           <ul className="space-y-2">
             <li>
               <Link href="/rooms" className="hover:text-blue-400 transition">
@@ -56,7 +56,7 @@ export default function Footer() {
 
         {/* Column 3 - Support */}
         <div>
-          <h3 className="text-white text-lg font-semibold mb-4">Support</h3>
+          <h3 className="!text-white text-lg font-semibold mb-4">Support</h3>
           <ul className="space-y-2">
             <li>
               <Link href="/help" className="hover:text-blue-400 transition">
@@ -89,7 +89,7 @@ export default function Footer() {
 
         {/* Column 4 - Social Media */}
         <div>
-          <h3 className="text-white text-lg font-semibold mb-4">Follow Us</h3>
+          <h3 className="!text-white text-lg font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-4">
             <Link
               href="https://www.facebook.com/profile.php?id=61554823514977"

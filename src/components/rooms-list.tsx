@@ -75,24 +75,24 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
     <div>
       {showSearch && (
         <form
-          className="mb-4 flex gap-3 border bg-gray-50 py-10 justify-center"
+          className="mb-4 flex flex-col md:flex-row gap-3 border bg-gray-50 py-10 justify-center px-4 md:px-0"
           onSubmit={handleSearch}
         >
           <input
             type="text"
             placeholder="Search by title..."
-            className="bg-white border rounded px-3 py-2 w-64 h-10"
+            className="bg-white border rounded px-3 py-2 w-full md:w-64 h-10"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
           <input
             type="text"
             placeholder="City"
-            className="bg-white border rounded px-3 py-2 w-40 h-10"
+            className="bg-white border rounded px-3 py-2 w-full md:w-40 h-10"
             value={city}
             onChange={handleCityChange}
           />
-          <Button type="submit" className="bg-[#003b95] text-white px-4 py-2 h-[36px] rounded">
+          <Button type="submit" className="bg-[#003b95] text-white px-4 py-2 h-10 rounded">
             Search
           </Button>
         </form>

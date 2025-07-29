@@ -3,7 +3,6 @@ import { Suspense } from 'react'
 import CitiesSlider from '@/components/cities-slider'
 import { RoomSearch } from '@/components/room-search'
 import RoomsList from '@/components/rooms-list'
-import Link from 'next/link'
 import Loader from '@/components/loader'
 import Packages from '@/components/packages'
 import SectionAboutUs from '@/components/section-about-us'
@@ -19,7 +18,7 @@ async function Home() {
         <RoomsList />
       </section>
 
-      <section className="max-w-7xl md:mx-auto p-4 md:px-6 md:py-10">
+      <section className="max-w-7xl md:mx-auto p-4 px-6 md:py-10">
         <CitiesSlider />
       </section>
 

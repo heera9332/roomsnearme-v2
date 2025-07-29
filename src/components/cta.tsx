@@ -2,10 +2,10 @@ import Link from 'next/link'
 
 const CTA = () => {
   return (
-    <section className="bg-[#003b95] text-white py-12 text-center flex flex-col gap-2">
+    <section className="bg-[#003b95] text-white py-12 text-center flex flex-col gap-2 px-4">
       <div className="cta-content">
-        <h2 className="text-2xl font-semibold mb-2">Ready to Book Your Stay?</h2>
-        <p className="mb-6 text-white">
+        <h2 className="text-2xl !text-white font-semibold mb-2">Ready to Book Your Stay?</h2>
+        <p className="mb-2 text-white">
           Get the best deals on nearby stays – book instantly and stress-free.
         </p>
       </div>

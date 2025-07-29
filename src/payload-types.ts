@@ -197,11 +197,11 @@ export interface Post {
   } | null;
   author: string | User;
   publishedDate: string;
-  status?: ('draft' | 'published' | 'trash') | null;
   featuredImage?: (string | null) | Media;
   likes?: number | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -253,6 +253,7 @@ export interface Comment {
   ipAddress?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -302,6 +303,7 @@ export interface Room {
   comments?: (string | null) | Comment;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -397,6 +399,7 @@ export interface Review {
     | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -775,11 +778,11 @@ export interface PostsSelect<T extends boolean = true> {
   content?: T;
   author?: T;
   publishedDate?: T;
-  status?: T;
   featuredImage?: T;
   likes?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -828,6 +831,7 @@ export interface CommentsSelect<T extends boolean = true> {
   ipAddress?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -859,6 +863,7 @@ export interface RoomsSelect<T extends boolean = true> {
   comments?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -950,6 +955,7 @@ export interface ReviewsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
