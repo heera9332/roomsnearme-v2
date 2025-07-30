@@ -1,0 +1,29 @@
+@media (max-width: 640px) {
+  /* hide the real headers */
+  .responsive-table thead {
+    display: none;
+  }
+  /* stack rows */
+  .responsive-table tr {
+    display: block;
+    margin-bottom: 1rem;
+  }
+  /* each cell becomes a row: value on the right, label via ::before */
+  .responsive-table td {
+    display: block;
+    position: relative;
+    padding: 0.5rem 0.75rem 0.5rem 50%;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: right;
+  }
+  .responsive-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 45%;
+    padding-left: 0.75rem;
+    font-weight: 600;
+    text-align: left;
+    background: #f9fafb;
+  }
+}

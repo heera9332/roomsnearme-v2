@@ -142,7 +142,7 @@ export default function CheckoutPage() {
   }, [])
 
   return (
-    <div className="max-w-7xl mx-auto py-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="max-w-7xl mx-auto px-4 py-4 grid grid-cols-1 md:grid-cols-2 gap-8">
       {/* Left: User, billing, shipping */}
       <form onSubmit={handleOrder} className="space-y-6">
         <h2 className="text-2xl font-semibold mb-2">Checkout</h2>

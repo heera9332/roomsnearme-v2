@@ -2,7 +2,7 @@ import { Access, PayloadRequest } from 'payload';
 
 // Helper: check if user has a specific role
 const hasRole = (req: PayloadRequest, role: "customer" | "admin" | "vendor") =>
-  Array.isArray(req?.user?.roles) && req.user.roles.includes(role);
+  Array.isArray(req?.user?.roles) && req?.user?.roles?.includes(role) || false;
 
 export const isAdmin: Access = ({ req }: { req: PayloadRequest }) => {
   return hasRole(req, "admin");
