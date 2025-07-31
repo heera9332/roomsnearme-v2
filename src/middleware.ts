@@ -10,12 +10,13 @@ const ALLOWED_ORIGINS = [
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  // 1) Don’t apply this middleware to /api/media or anything under it
+  // we’ll never see /api/media here because our matcher skips it
+  // (but you can still add an extra guard if you like)
   if (pathname.startsWith('/api/media')) {
     return NextResponse.next()
   }
 
-  // 2) Only intercept other /api/* calls
+  // now only non-media /api/* lands here
   if (pathname.startsWith('/api/')) {
     const origin = req.headers.get('origin') || req.headers.get('referer') || ''
     try {
@@ -46,10 +47,7 @@ export function middleware(req: NextRequest) {
   return NextResponse.next()
 }
 
-// apply to all /api/* except /api/media/*
 export const config = {
-  matcher: [
-    '/api/:path*',
-    '!/api/media/:path*'
-  ]
+  // match /api/<anything> except if it starts with "media/"
+  matcher: ['/api/:path((?!media/).*)'],
 }
