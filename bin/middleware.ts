@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 
 const ALLOWED_ORIGINS = [
   'https://roomsnearme.in',
-  // add more origins here if needed, e.g. 'https://example.com'
+  'http://localhost:3000'
 ]
 
 function getRequestOrigin(req: NextRequest): string | null {
@@ -20,7 +20,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   // skip /api/media entirely
-  if (pathname.startsWith('/api/media')) {
+  if (pathname.startsWith('/api/media') || pathname.startsWith('/api/users')) {
     return NextResponse.next()
   }
 
@@ -60,5 +60,5 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   // match /api/* except /api/media
-  matcher: ['/api/:path((?!media/).*)'],
+  // matcher: ['/api/:path((?!media/).*)'],
 }

@@ -136,7 +136,7 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   name?: string | null;
-  roles?: ('customer' | 'vendor' | 'admin')[] | null;
+  roles?: ('customer' | 'admin' | 'vendor')[] | null;
   /**
    * Only shown for Admin & Vendor users
    */
@@ -167,7 +167,7 @@ export interface User {
   };
   updatedAt: string;
   createdAt: string;
-  email: string;
+  email?: string | null;
   username: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;

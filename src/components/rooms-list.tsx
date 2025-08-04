@@ -75,7 +75,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
     <div>
       {showSearch && (
         <form
-          className="mb-4 flex flex-col md:flex-row gap-3 border bg-gray-50 py-10 justify-center px-4 md:px-0"
+          className="mb-4 flex flex-col md:flex-row gap-3 border bg-gray-50 py-10 justify-center px-4 xl:px-0"
           onSubmit={handleSearch}
         >
           <input

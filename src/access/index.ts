@@ -1,8 +1,12 @@
 import { Access, PayloadRequest } from 'payload';
 
-// Helper: check if user has a specific role
-const hasRole = (req: PayloadRequest, role: "customer" | "admin" | "vendor") =>
-  Array.isArray(req?.user?.roles) && req?.user?.roles?.includes(role) || false;
+type Role = "customer" | "admin" | "vendor";
+
+export const hasRole = (req: PayloadRequest, role: Role): boolean => {
+  const roles = req?.user?.roles;
+  if (!Array.isArray(roles)) return false;
+  return roles.some(r => String(r).toLowerCase() === role);
+};
 
 export const isAdmin: Access = ({ req }: { req: PayloadRequest }) => {
   return hasRole(req, "admin");
@@ -20,10 +24,8 @@ export const isLoggedIn: Access = ({ req }: { req: PayloadRequest }) => {
   return !!req.user;
 };
 
-// User can read if they are involved in the booking (as customer or vendor or admin)
 export const canReadOwnBooking: Access = async ({ req }) => {
   const userId = req?.user?.id;
-
   if (!userId) return false;
   if (hasRole(req, "admin")) return true;
 
@@ -35,10 +37,9 @@ export const canReadOwnBooking: Access = async ({ req }) => {
   };
 };
 
-// User can update if they're admin or the vendor of the booking
 export const canUpdateBooking: Access = async ({ req }) => {
-  const userId = req.user?.id;
-
+  const userId = req?.user?.id;
+  if (!userId) return false;
   if (hasRole(req, "admin")) return true;
 
   return {

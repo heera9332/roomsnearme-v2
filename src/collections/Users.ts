@@ -8,42 +8,34 @@ export const Users: CollectionConfig = {
   },
   access: {
     // Allow anyone to sign up (if you want public signup; otherwise restrict as needed)
-    create: () => true,
+    // create: () => true,
 
-    // Admins can read any user. Users can only read their own profile.
-    read: ({ req, id }) => {
-      if (isAdmin({ req })) return true
-      if (req.user && id) return req.user.id === id // Only allow self
-      return false
-    },
+    // // Admins can read any user. Users can only read their own profile.
+    // read: ({ req, id }) => {
+    //   if (isAdmin({ req })) return true
+    //   if (req.user && id) return req.user.id === id // Only allow self
+    //   return false
+    // },
 
-    // Admins can update any user. Users can only update their own profile.
+    // // Admins can update any user. Users can only update their own profile.
     update: ({ req, id }) => {
       if (isAdmin({ req })) return true
       if (req.user && id) return req.user.id === id // Only allow self
       return false
     },
 
-    // Only admins can delete users.
+    // // Only admins can delete users.
     delete: isAdmin,
   },
   admin: {
     defaultColumns: ['name', 'email', 'username'],
     useAsTitle: 'name',
   },
-  timestamps: true,
   fields: [
     {
       name: 'name',
       label: 'Full Name',
       type: 'text',
-    },
-    {
-      name: 'email',
-      label: 'Email',
-      type: 'email',
-      required: true,
-      unique: true,
     },
     {
       name: 'username',
@@ -56,9 +48,46 @@ export const Users: CollectionConfig = {
       name: 'roles',
       label: 'Roles',
       type: 'select',
-      options: ['customer', 'vendor', 'admin'],
+      options: [
+        {
+          label: 'Customer',
+          value: 'customer',
+        },
+        {
+          label: 'Administrator',
+          value: 'admin',
+        },
+        {
+          label: 'Vendor',
+          value: 'vendor',
+        },
+      ],
       defaultValue: 'customer',
       hasMany: true,
+      access: {
+        // create: () => false,
+        // update: ({ req }) => {
+        //   if (req.user?.roles?.includes('admin')) {
+        //     return true
+        //   }
+
+        //   return false
+        // },
+      },
+      hooks: {
+        beforeChange: [
+          // ({ req, data }) => {
+          //   // If the actor is not admin, enforce roles to be just ['customer']
+          //   if (!isAdmin({ req })) {
+          //     return {
+          //       ...data,
+          //       roles: ['customer'],
+          //     }
+          //   }
+          //   return data
+          // },
+        ],
+      },
     },
     {
       name: 'upi',
@@ -68,25 +97,25 @@ export const Users: CollectionConfig = {
       admin: {
         description: 'Only shown for Admin & Vendor users',
         // Conditionally show in the Admin UI when roles include admin or vendor
-        condition: ({ data }) =>
-          Array.isArray(data.roles) &&
-          (data.roles.includes('admin') || data.roles.includes('vendor')),
+        // condition: ({ data }) =>
+        //   Array.isArray(data.roles) &&
+        //   (data.roles.includes('admin') || data.roles.includes('vendor')),
       },
       // Field‐level validation hook: runs on both client & server
-      validate: ((value, { data }) => {
-        const roles = data.roles || []
-        const needsUpi = roles.includes('admin') || roles.includes('vendor')
+      // validate: ((value, { data }) => {
+      //   const roles = data.roles || []
+      //   const needsUpi = roles.includes('admin') || roles.includes('vendor')
 
-        if (needsUpi) {
-          if (!value) {
-            return 'UPI is required for Admin and Vendor roles'
-          }
-          const upiRegex = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z0-9.\-_]{2,64}$/
-          if (!upiRegex.test(value)) {
-            return 'Must be a valid UPI ID (e.g., user@bank)'
-          }
-        }
-      }) as Validate<string>,
+      //   if (needsUpi) {
+      //     if (!value) {
+      //       return 'UPI is required for Admin and Vendor roles'
+      //     }
+      //     const upiRegex = /^[a-zA-Z0-9.\-_]{2,256}@[a-zA-Z0-9.\-_]{2,64}$/
+      //     if (!upiRegex.test(value)) {
+      //       return 'Must be a valid UPI ID (e.g., user@bank)'
+      //     }
+      //   }
+      // }) as Validate<string>,
     },
     {
       name: 'billing',
@@ -125,4 +154,5 @@ export const Users: CollectionConfig = {
       ],
     },
   ],
+  timestamps: true,
 }

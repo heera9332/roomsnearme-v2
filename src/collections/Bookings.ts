@@ -10,7 +10,7 @@ export const Bookings: CollectionConfig = {
     defaultColumns: ['bookingCode', 'user', 'vendor', 'status'],
   },
   access: {
-    read: () => true,
+    read: ({req}) => canReadOwnBooking({req}),
     create: () => true,
     update: ({ req }) => isAdmin({req}) || isVendor({req}) || canReadOwnBooking({req}),
     delete: isAdmin,

@@ -64,7 +64,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto py-4 px-4 md:px-0">
+    <div className="max-w-7xl mx-auto py-4 px-4 xl:px-0">
       <h2 className="text-2xl font-bold mb-4">Cart</h2>
 
       <div className="overflow-x-auto">
