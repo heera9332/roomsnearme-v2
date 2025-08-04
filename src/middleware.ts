@@ -4,43 +4,54 @@ import type { NextRequest } from 'next/server'
 
 const ALLOWED_ORIGINS = [
   'https://roomsnearme.in',
-  // 'http://localhost:3000'
+  // add more origins here if needed, e.g. 'https://example.com'
 ]
+
+function getRequestOrigin(req: NextRequest): string | null {
+  const originHeader = req.headers.get('origin') || ''
+  try {
+    return new URL(originHeader).origin
+  } catch {
+    return null
+  }
+}
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  // we’ll never see /api/media here because our matcher skips it
-  // (but you can still add an extra guard if you like)
+  // skip /api/media entirely
   if (pathname.startsWith('/api/media')) {
     return NextResponse.next()
   }
 
-  // now only non-media /api/* lands here
+  // apply to all other /api/* routes
   if (pathname.startsWith('/api/')) {
-    const origin = req.headers.get('origin') || req.headers.get('referer') || ''
-    try {
-      const host = new URL(origin).origin
-      if (!ALLOWED_ORIGINS.includes(host)) {
-        return new NextResponse('Forbidden', { status: 403 })
-      }
-    } catch {
+    const origin = getRequestOrigin(req)
+    if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
       return new NextResponse('Forbidden', { status: 403 })
     }
 
+    // preflight
     if (req.method === 'OPTIONS') {
       return new NextResponse(null, {
         status: 204,
         headers: {
           'Access-Control-Allow-Origin': origin,
-          'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
+          'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Max-Age': '86400',
+          'Vary': 'Origin',
         },
       })
     }
 
+    // actual request
     const res = NextResponse.next()
     res.headers.set('Access-Control-Allow-Origin', origin)
+    res.headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS')
+    res.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    res.headers.set('Access-Control-Max-Age', '86400')
+    res.headers.set('Vary', 'Origin')
     return res
   }
 
@@ -48,6 +59,6 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // match /api/<anything> except if it starts with "media/"
+  // match /api/* except /api/media
   matcher: ['/api/:path((?!media/).*)'],
 }
