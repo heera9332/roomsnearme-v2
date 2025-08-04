@@ -75,7 +75,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
     <div>
       {showSearch && (
         <form
-          className="mb-4 flex flex-col md:flex-row gap-3 border bg-gray-50 py-10 justify-center px-4 xl:px-0"
+          className="mb-4 flex flex-col md:flex-row gap-3 border bg-gray-50 py-10 justify-center px-4 xl:px-0 rounded-md"
           onSubmit={handleSearch}
         >
           <input
@@ -119,16 +119,20 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
                 <Image
                   src={room?.featuredImage?.url || 'https://placehold.co/400x300'}
                   alt={room?.title || 'Room'}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-cover hover:scale-[100.2%]"
                   width={400}
                   height={300}
                 />
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold">{room?.title?.slice(0, 24)}</h3>
+                  <h3 className="text-lg font-semibold" title={room?.title}>
+                    {room?.title?.slice(0, 24)}
+                  </h3>
                   <div className="text-gray-600 mt-2">
-                    <p>
+                    <p title={room.area || ""}>
                       <strong>Area: </strong>
-                      {room?.area}
+                      {room?.area && room?.area?.length >= 32
+                        ? room?.area?.slice(0, 32) + '...'
+                        : room?.area}
                     </p>
                   </div>
                   <p className="text-[#003b95] mt-2 font-bold">₹{room?.pricePerMonth}/month</p>

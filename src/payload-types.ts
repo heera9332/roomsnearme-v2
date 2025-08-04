@@ -326,7 +326,37 @@ export interface Room {
   featuredImage?: (string | null) | Media;
   photos?: (string | Media)[] | null;
   status?: ('active' | 'inactive' | 'booked') | null;
-  comments?: (string | null) | Comment;
+  reviews?: (string | null) | Review;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: string;
+  room: string | Room;
+  user: string | User;
+  rating: number;
+  reviewText: string;
+  photos?: (string | Media)[] | null;
+  likes?:
+    | {
+        user: string | User;
+        likedAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  comments?:
+    | {
+        user: string | User;
+        comment: string;
+        createdAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -396,36 +426,6 @@ export interface Booking {
     | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "reviews".
- */
-export interface Review {
-  id: string;
-  room: string | Room;
-  user: string | User;
-  rating: number;
-  reviewText: string;
-  photos?: (string | Media)[] | null;
-  likes?:
-    | {
-        user: string | User;
-        likedAt?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  comments?:
-    | {
-        user: string | User;
-        comment: string;
-        createdAt?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -915,7 +915,7 @@ export interface RoomsSelect<T extends boolean = true> {
   featuredImage?: T;
   photos?: T;
   status?: T;
-  comments?: T;
+  reviews?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

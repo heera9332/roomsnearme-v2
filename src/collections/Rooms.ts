@@ -172,8 +172,8 @@ export const Rooms: CollectionConfig = {
       },
     },
     {
-      name: 'comments',
-      relationTo: 'comments',
+      name: 'reviews',
+      relationTo: 'reviews',
       type: 'relationship',
     },
   ],

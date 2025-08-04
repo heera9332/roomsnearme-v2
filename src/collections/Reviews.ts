@@ -17,6 +17,17 @@ export const Reviews: CollectionConfig = {
     update: ({ req }) => isAdmin({ req }),
     delete: ({ req }) => isAdmin({ req }),
   },
+  hooks: {
+    beforeChange: [
+      async ({ req, data, operation }) => {
+        if (operation === 'create') {
+          // for create operations, set the `user` relationship to the authenticated user
+          data.user = req?.user?.id
+        }
+        return data
+      },
+    ],
+  },
   fields: [
     {
       name: 'room',
