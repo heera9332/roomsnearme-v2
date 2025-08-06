@@ -95,7 +95,7 @@ export const WriteReview = ({ onSubmitted }: WriteReviewProps) => {
   }
 
   return (
-    <Card className="border shadow-sm mt-4">
+    <Card className="border mt-4">
       <CardHeader>
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
           <div>

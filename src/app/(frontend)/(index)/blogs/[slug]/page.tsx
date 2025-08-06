@@ -41,7 +41,7 @@ export default async function Page({ params }: Args) {
   if (!post) return notFound()
 
   return (
-    <div className="mt-16 min-h-screen max-w-7xl mx-auto pt-4 md:p-0 md:pt-4 p-4">
+    <div className="mt-16 min-h-screen max-w-7xl mx-auto pt-4 md:pt-4 p-4">
       <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
 
       {post.featuredImage?.url && (

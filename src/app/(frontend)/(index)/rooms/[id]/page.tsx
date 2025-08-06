@@ -16,6 +16,7 @@ import Content from '@/components/content'
 import { getUniquePhotos } from '@/lib/utils'
 import { RoomReviews } from '@/components/room-reviews'
 import { WriteReview } from '@/components/room-review-form'
+import RelatedRooms from '@/components/related-rooms'
 
 // @ts-ignore
 function formatDate(dateStr) {
@@ -71,7 +72,7 @@ export default function RoomSinglePage({ params }: Args) {
   }
 
   function handleAddToCart() {
-    if(!room) return;
+    if (!room) return
 
     if (!checkInDate || !checkOutDate) {
       alert('Please select check-in and check-out dates.')
@@ -104,12 +105,12 @@ export default function RoomSinglePage({ params }: Args) {
               height={720}
               src={room.featuredImage?.url || 'https://placehold.co/960x720'}
               alt={room.featuredImage?.alt || 'Room Image'}
-              className="w-full max-h-[512px] object-cover rounded-lg mb-6"
+              className="w-full max-h-[512px] object-cover shadow-sm rounded-lg mb-6"
             />
           )}
           {mergedPhotos.length > 1 && <RoomGallery photos={mergedPhotos} />}
 
-          <Card className="mb-4 border p-4 shadow-sm block mt-4">
+          <Card className="mb-4 border p-4 block mt-4">
             <h2 className="font-bold text-2xl">About</h2>
             <Content {...room} />
           </Card>
@@ -203,6 +204,8 @@ export default function RoomSinglePage({ params }: Args) {
           <RoomReviews />
 
           <WriteReview />
+
+          <RelatedRooms room={room} />
         </div>
 
         {/* Sidebar */}

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Viewport } from 'next'
@@ -28,31 +28,37 @@ const Blogs = async () => {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Sidebar */}
-        <aside className="md:col-span-1 bg-gray-100 rounded-lg p-4 shadow-sm h-fit">
-          <h2 className="text-xl font-bold mb-4">Categories</h2>
-          <ul className="space-y-2 text-blue-700 text-sm">
-            <li>
-              <Link href="/blogs" className="hover:underline">
-                All Blogs
-              </Link>
-            </li>
-            <li>
-              <Link href="/blogs?cat=tech" className="hover:underline">
-                Tech
-              </Link>
-            </li>
-            <li>
-              <Link href="/blogs?cat=life-style" className="hover:underline">
-                Lifestyle
-              </Link>
-            </li>
-            <li>
-              <Link href="/blogs?cat=student-life" className="hover:underline">
-                Student Life
-              </Link>
-            </li>
-          </ul>
-        </aside>
+        <Card className="md:col-span-1 rounded-lg h-fit">
+          <CardHeader>
+            <h2 className="text-xl font-bold">Categories</h2>
+          </CardHeader>
+          <CardContent>
+            <aside className="">
+              <ul className="text-blue-700">
+                <li>
+                  <Link href="/blogs" className="hover:underline">
+                    All Blogs
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blogs?cat=tech" className="hover:underline">
+                    Tech
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blogs?cat=life-style" className="hover:underline">
+                    Lifestyle
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blogs?cat=student-life" className="hover:underline">
+                    Student Life
+                  </Link>
+                </li>
+              </ul>
+            </aside>
+          </CardContent>
+        </Card>
 
         {/* Main Content */}
         <main className="md:col-span-3">
