@@ -1,10 +1,9 @@
 'use client'
 import React, { useRef, useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination } from 'swiper/modules'
+
 import Image from 'next/image'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { axios } from '@/lib/axios'
 
@@ -12,6 +11,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import { Button } from './ui/button'
+import { Skeleton } from './ui/skeleton'
 
 interface Room {
   id: string
@@ -81,7 +81,7 @@ export default function RelatedRooms({ room }) {
       </div>
 
       <Swiper
-        className='py-4'
+        className="py-4"
         loop
         freeMode
         slidesPerView={1}
@@ -97,42 +97,50 @@ export default function RelatedRooms({ room }) {
           1024: { slidesPerView: 3, spaceBetween: 30 },
         }}
       >
-        {loading ? (
-          <div className="text-center py-6 text-sm text-gray-500">Loading rooms...</div>
-        ) : (
-          rooms.map((room) => (
-            <SwiperSlide key={room.id} className='py-4'>
-              <div key={room.id} className="bg-white shadow-md rounded-lg overflow-hidden">
-                <Link href={`/rooms/${room.id}`}>
-                  <Image
-                    src={room?.featuredImage?.url || 'https://placehold.co/400x300'}
-                    alt={room?.title || 'Room'}
-                    className="w-full h-48 object-cover hover:scale-[100.2%]"
-                    width={400}
-                    height={300}
-                  />
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold" title={room?.title}>
-                      {room?.title?.slice(0, 24)}
-                    </h3>
-                    <div className="text-gray-600 mt-2">
-                      <p title={room.area || ''}>
-                        <strong>Area: </strong>
-                        {room?.area && room?.area?.length >= 32
-                          ? room?.area?.slice(0, 32) + '...'
-                          : room?.area}
-                      </p>
-                    </div>
-                    <p className="text-[#003b95] mt-2 font-bold">₹{room?.pricePerMonth}/month</p>
-                    <Button className="cursor-pointer bg-[#003b95] text-white mt-3 px-4 py-2 rounded-md transition hover:bg-[#003b95]">
-                      View info.
-                    </Button>
-                  </div>
-                </Link>
+        {loading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="bg-white shadow-md rounded-lg overflow-hidden">
+                <Skeleton className="w-full h-48" />
+                <div className="p-4">
+                  <Skeleton className="h-6 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-2/3 mb-4" />
+                  <Skeleton className="h-10 w-24" />
+                </div>
               </div>
-            </SwiperSlide>
-          ))
-        )}
+            ))
+          : rooms.map((room) => (
+              <SwiperSlide key={room.id} className="py-4">
+                <div key={room.id} className="bg-white shadow-md rounded-lg overflow-hidden">
+                  <Link href={`/rooms/${room.id}`}>
+                    <Image
+                      src={room?.featuredImage?.url || 'https://placehold.co/400x300'}
+                      alt={room?.title || 'Room'}
+                      className="w-full h-48 object-cover hover:scale-[100.2%]"
+                      width={400}
+                      height={300}
+                    />
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold" title={room?.title}>
+                        {room?.title?.slice(0, 24)}
+                      </h3>
+                      <div className="text-gray-600 mt-2">
+                        <p title={room.area || ''}>
+                          <strong>Area: </strong>
+                          {room?.area && room?.area?.length >= 32
+                            ? room?.area?.slice(0, 32) + '...'
+                            : room?.area}
+                        </p>
+                      </div>
+                      <p className="text-[#003b95] mt-2 font-bold">₹{room?.pricePerMonth}/month</p>
+                      <Button className="cursor-pointer bg-[#003b95] text-white mt-3 px-4 py-2 rounded-md transition hover:bg-[#003b95]">
+                        View info.
+                      </Button>
+                    </div>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
       </Swiper>
     </div>
   )
