@@ -6,6 +6,10 @@ import { useRouter } from "next/navigation";
 
 const cities = [
   "Sagar",
+  "Bhopal",
+  "Bina",
+  "Jabalpur",
+  "Indore",
   "Damoh",
   "Panna",
   "Chattarpur",
