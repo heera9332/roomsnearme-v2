@@ -278,6 +278,7 @@ export default function RoomSinglePage({ params }: Args) {
               </Link>{' '}
               to message us on WhatsApp
             </p>
+            <p>Contact us - <Link href={'tel:+918085589371'}>91 8085589371</Link></p>
           </Card>
         </div>
       </div>
