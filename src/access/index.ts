@@ -48,3 +48,20 @@ export const canUpdateBooking: Access = async ({ req }) => {
     },
   };
 };
+
+
+export const isPlatformAdmin = ({ req }: { req: PayloadRequest }) =>
+  Boolean(req.user?.roles?.includes('admin'))
+
+export const userTenantIds = (req: PayloadRequest): string[] =>
+  Array.isArray(req.user?.memberships)
+    ? req.user.memberships.map((m: any) => String(m.tenant))
+    : []
+
+export const isTenantMember = (req: PayloadRequest, tenantId: string) =>
+  userTenantIds(req).includes(String(tenantId))
+
+export const hasTenantRole = (req: PayloadRequest, tenantId: string, role: 'tenant_admin' | 'vendor' | 'customer') => {
+  const m = (req.user?.memberships || []).find((x: any) => String(x.tenant) === String(tenantId))
+  return m?.roles?.includes(role)
+}
