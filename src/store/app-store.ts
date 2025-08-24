@@ -9,10 +9,16 @@ interface AppState {
 
   loadingPosts: boolean
   loadingRooms: boolean
-  totalRooms: number      // <--- add this
+  totalRooms: number // <--- add this
 
-
-  loadRooms: (query?: { s?: string; limit?: number; page?: number; city?: string }) => Promise<void>
+  loadRooms: (query?: {
+    s?: string
+    limit?: number
+    page?: number
+    city?: string
+    minPrice?: number
+    maxPrice?: number
+  }) => Promise<void>
   getRoom: (id: string) => Room | null
   getPost: (id: string) => Post | null
   loadPosts: () => Promise<void>
@@ -44,10 +50,16 @@ export const useAppStore = create<AppState>()(
           const limit = query?.limit || 10
           const page = query?.page || 1
           const city = query?.city || ''
+          const minPrice = query?.minPrice || 0
+          const maxPrice = query?.maxPrice || 9999999
 
           set({ loadingRooms: true })
           const res = await axios.get(
-            `/api/rooms?where[title][like]=${q}&page=${page}&limit=${limit}&where[city][like]=${city}`,
+            `/api/rooms?page=${page}&limit=${limit}` +
+              `&where[title][like]=${q}` +
+              `&where[city][like]=${city}` +
+              `&where[pricePerMonth][greater_than_equal]=${minPrice}` +
+              `&where[pricePerMonth][less_than_equal]=${maxPrice}`,
           )
           const data: Room[] = res.data?.docs || []
           set({
@@ -60,7 +72,6 @@ export const useAppStore = create<AppState>()(
           set({ loadingRooms: false })
         }
       },
-
 
       // Load Posts from API
       loadPosts: async () => {

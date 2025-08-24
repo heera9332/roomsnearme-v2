@@ -1,5 +1,5 @@
 import { isAdmin } from '@/access'
-import type { CollectionConfig, Validate } from 'payload'
+import type { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -11,14 +11,14 @@ export const Users: CollectionConfig = {
   },
   access: {
     // Allow anyone to sign up (if you want public signup; otherwise restrict as needed)
-    // create: () => true,
+    create: () => true,
 
     // // Admins can read any user. Users can only read their own profile.
-    // read: ({ req, id }) => {
-    //   if (isAdmin({ req })) return true
-    //   if (req.user && id) return req.user.id === id // Only allow self
-    //   return false
-    // },
+    read: ({ req, id }) => {
+      if (isAdmin({ req })) return true
+      if (req.user && id) return req.user.id === id // Only allow self
+      return false
+    },
 
     // // Admins can update any user. Users can only update their own profile.
     update: ({ req, id }) => {
@@ -38,6 +38,11 @@ export const Users: CollectionConfig = {
     {
       name: 'name',
       label: 'Full Name',
+      type: 'text',
+    },
+    {
+      name: 'oldId',
+      label: 'oldId',
       type: 'text',
     },
     {
@@ -126,11 +131,11 @@ export const Users: CollectionConfig = {
       label: 'Billing Information',
       access: { create: () => true },
       fields: [
-        { name: 'billingFirst_name', label: 'First Name', type: 'text' },
-        { name: 'billingLast_name', label: 'Last Name', type: 'text' },
+        { name: 'billingFirstName', label: 'First Name', type: 'text' },
+        { name: 'billingLastName', label: 'Last Name', type: 'text' },
         { name: 'billingCompany', label: 'Company Name', type: 'text' },
-        { name: 'billingAddress_1', label: 'Address Line 1', type: 'text' },
-        { name: 'billingAddress_2', label: 'Address Line 2', type: 'text' },
+        { name: 'billingAddress1', label: 'Address Line 1', type: 'text' },
+        { name: 'billingAddress2', label: 'Address Line 2', type: 'text' },
         { name: 'billingCity', label: 'City', type: 'text' },
         { name: 'billingState', label: 'State/Province', type: 'text' },
         { name: 'billingPostcode', label: 'Postal Code', type: 'text' },
@@ -145,11 +150,11 @@ export const Users: CollectionConfig = {
       label: 'Shipping Information',
       access: { create: () => true },
       fields: [
-        { name: 'shippingFirst_name', label: 'First Name', type: 'text' },
-        { name: 'shippingLast_name', label: 'Last Name', type: 'text' },
+        { name: 'shippingFirstName', label: 'First Name', type: 'text' },
+        { name: 'shippingLastName', label: 'Last Name', type: 'text' },
         { name: 'shippingCompany', label: 'Company Name', type: 'text' },
-        { name: 'shippingAddress_1', label: 'Address Line 1', type: 'text' },
-        { name: 'shippingAddress_2', label: 'Address Line 2', type: 'text' },
+        { name: 'shippingAddress1', label: 'Address Line 1', type: 'text' },
+        { name: 'shippingAddress2', label: 'Address Line 2', type: 'text' },
         { name: 'shippingCity', label: 'City', type: 'text' },
         { name: 'shippingState', label: 'State/Province', type: 'text' },
         { name: 'shippingPostcode', label: 'Postal Code', type: 'text' },

@@ -80,6 +80,10 @@ export const Rooms: CollectionConfig = {
       options: [
         { label: 'Sagar', value: 'sagar' },
         { label: 'Damoh', value: 'damoh' },
+        { label: 'Bhopal', value: 'bhopal' },
+        { label: 'Indore', value: 'indore' },
+        { label: 'Bina', value: 'bina' },
+        { label: 'Jabalpur', value: 'jabalpur' },
       ],
       required: true,
     },

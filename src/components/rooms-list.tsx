@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useAppStore } from '@/store/app-store'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Room } from '@/payload-types'
-import Content from '@/components/content'
+import { Search, MapPin, IndianRupee } from 'lucide-react'
 
 interface RoomsListProps {
   showSearch?: boolean
@@ -22,15 +22,16 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
   const loadRooms = useAppStore((s) => s.loadRooms)
   const loading = useAppStore((s) => s.loadingRooms)
 
-  // Controlled search/city states for inputs
+  // States synced with URL
   const [search, setSearch] = useState(searchParams.get('s') || '')
   const [city, setCity] = useState(searchParams.get('city') || '')
+  const [minPrice, setMinPrice] = useState(Number(searchParams.get('minPrice')) || 0)
+  const [maxPrice, setMaxPrice] = useState(Number(searchParams.get('maxPrice')) || 9999999)
 
-  // Read page/limit from search params
   const page = Number(searchParams.get('page')) || 1
-  const limit = Number(searchParams.get('limit')) || 10
+  const limit = Number(searchParams.get('limit')) || 12
 
-  // Sync filters with URL
+  // Update URL params
   const updateParams = (params: Record<string, any>) => {
     const sp = new URLSearchParams(searchParams.toString())
     Object.entries(params).forEach(([k, v]) => {
@@ -40,68 +41,104 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
     router.push(`/rooms?${sp.toString()}`)
   }
 
-  // When URL params change, fetch
+  // Refetch on URL change
   useEffect(() => {
     loadRooms({
       s: searchParams.get('s') || '',
       page: Number(searchParams.get('page')) || 1,
-      limit: Number(searchParams.get('limit')) || 10,
+      limit: Number(searchParams.get('limit')) || 12,
       city: searchParams.get('city') || '',
+      minPrice: Number(searchParams.get('minPrice')) || 0,
+      maxPrice: Number(searchParams.get('maxPrice')) || 99999,
     })
   }, [searchParams, loadRooms])
 
-  // Handlers
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    updateParams({ s: search, city, page: 1 }) // Reset to page 1
+    updateParams({ s: search, city, minPrice, maxPrice, page: 1, limit })
   }
 
-  const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(e.target.value)
-  }
-
-  // Pagination handlers
   const handlePageChange = (newPage: number) => {
     updateParams({ page: newPage })
   }
 
-  // You should get `total` from your API for real apps
-  // Let's assume each API call also returns a total (update your store accordingly)
-  // Here, we'll use a hardcoded value for demonstration:
-  const totalRooms = useAppStore((s) => s.totalRooms) || 100 // <-- update to actual
+  const totalRooms = useAppStore((s) => s.totalRooms) || 100
   const totalPages = Math.ceil(totalRooms / limit)
 
   return (
     <div>
       {showSearch && (
         <form
-          className="mb-4 flex flex-col md:flex-row gap-3 border bg-gray-50 py-10 justify-center px-4 xl:px-0 rounded-md"
+          className="mb-6 bg-gray-50 border rounded-md p-4 md:p-6 space-y-4"
           onSubmit={handleSearch}
         >
-          <input
-            type="text"
-            placeholder="Search by title..."
-            className="bg-white border rounded px-3 py-2 w-full md:w-64 h-10"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="City"
-            className="bg-white border rounded px-3 py-2 w-full md:w-40 h-10"
-            value={city}
-            onChange={handleCityChange}
-          />
-          <Button type="submit" className="bg-[#003b95] text-white px-4 py-2 h-10 rounded">
-            Search
-          </Button>
+          {/* --- Row 1: Search + City + Button --- */}
+          <div className="flex flex-col justify-center md:flex-row gap-3">
+            <div className="flex items-center border rounded px-2 bg-white w-full md:w-1/3">
+              <Search className="h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by title..."
+                className="flex-1 bg-transparent px-2 py-2 outline-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+            <div className="flex items-center border rounded px-2 bg-white w-full md:w-1/3">
+              <MapPin className="h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="City"
+                className="flex-1 bg-transparent px-2 py-2 outline-none"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="bg-[#003b95] text-white px-4 py-2 h-10 rounded w-full md:w-auto"
+            >
+              Search
+            </Button>
+          </div>
+
+          {/* --- Divider --- */}
+          <div className="border-t my-2"></div>
+
+          {/* --- Row 2: Price Range --- */}
+          <div className="flex flex-col justify-center md:flex-row gap-3 mt-4">
+            <div className="flex items-center border rounded px-2 bg-white w-full md:w-1/6">
+              <IndianRupee className="h-4 w-4 text-gray-400" />
+              <input
+                type="number"
+                placeholder="Min Price"
+                className="flex-1 bg-transparent px-2 py-2 outline-none"
+                value={minPrice}
+                onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
+              />
+            </div>
+
+            <div className="flex items-center border rounded px-2 bg-white w-full md:w-1/6">
+              <IndianRupee className="h-4 w-4 text-gray-400" />
+              <input
+                type="number"
+                placeholder="Max Price"
+                className="flex-1 bg-transparent px-2 py-2 outline-none"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value) || 99999)}
+              />
+            </div>
+          </div>
         </form>
       )}
 
+      {/* --- Rooms Grid --- */}
       <h2 className="text-2xl font-semibold mb-6">Rooms</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {loading ? (
-          Array.from({ length: 4 }).map((_, index) => (
+          Array.from({ length: 8 }).map((_, index) => (
             <div key={index} className="bg-white shadow-md rounded-lg overflow-hidden">
               <Skeleton className="w-full h-48" />
               <div className="p-4">
@@ -128,11 +165,12 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
                     {room?.title?.slice(0, 24)}
                   </h3>
                   <div className="text-gray-600 mt-2">
-                    <p title={room.area || ""}>
+                    <p title={`${room.area || ''} - ${room.city || ''}`}>
                       <strong>Area: </strong>
-                      {room?.area && room?.area?.length >= 32
-                        ? room?.area?.slice(0, 32) + '...'
-                        : room?.area}
+                      {(() => {
+                        const combined = `${room.area || ''} - ${room.city || ''}`
+                        return combined.length > 32 ? combined.slice(0, 32) + '...' : combined
+                      })()}
                     </p>
                   </div>
                   <p className="text-[#003b95] mt-2 font-bold">₹{room?.pricePerMonth}/month</p>
@@ -150,7 +188,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
 
       {/* Pagination */}
       {showPagination && rooms.length ? (
-        <div className="flex justify-center items-center gap-2 mt-6">
+        <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
           <Button
             className="px-3 py-1"
             onClick={() => handlePageChange(page - 1)}
@@ -176,9 +214,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
             Next
           </Button>
         </div>
-      ) : (
-        ''
-      )}
+      ) : null}
     </div>
   )
 }

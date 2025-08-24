@@ -52,7 +52,7 @@ export const RoomSearch = () => {
             placeholder="Enter city"
             value={selectedCity}
             onChange={(e) => setSelectedCity(e.target.value)}
-            className="px-4 py-2 rounded-md text-white focus:outline-none border text-white"
+            className="px-4 py-2 rounded-md focus:outline-none border text-white"
           />
           <datalist id="city-list">
             {cities.map((city) => (
