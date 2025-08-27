@@ -1,191 +1,372 @@
-import React from "react";
-import "./page.css";
+import type { Metadata } from 'next'
+import React from 'react'
+import './page.css'
+
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | RoomsNearMe',
+  description:
+    'Read how RoomsNearMe collects, uses, and protects personal data, including cookies, analytics, and user rights.',
+  alternates: {
+    canonical: 'https://www.roomsnearme.in/privacy-policy',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    type: 'article',
+    url: 'https://www.roomsnearme.in/privacy-policy',
+    siteName: 'RoomsNearMe',
+    title: 'Privacy Policy | RoomsNearMe',
+    description:
+      'Read how RoomsNearMe collects, uses, and protects personal data, including cookies, analytics, and user rights.',
+    images: ['https://www.roomsnearme.in/og/privacy-policy.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy | RoomsNearMe',
+    description:
+      'Read how RoomsNearMe collects, uses, and protects personal data, including cookies, analytics, and user rights.',
+    images: ['https://www.roomsnearme.in/og/privacy-policy.png'],
+  },
+}
 
 function Rooms() {
   return (
-    <div className="max-w-7xl mx-auto mt-16 min-h-screen p-4">
+    <div className="max-w-7xl mx-auto mt-16 min-h-screen p-4 page">
       <h1 className="font-semibold text-2xl">Privay Policy</h1>
-      <div>
-        <p>
-          At roomsnearme, accessible from
-          <a href="http://roomsnearme.com">https://roomsnearme.in</a>
-          one of our main priorities is the privacy of our visitors. This
-          Privacy Policy document contains types of information that is
-          collected and recorded by rooomsnearme and how we use it.
-        </p>
-        <p>
-          If you have additional questions or require more information about our
-          Privacy Policy, do not hesitate to contact us. This Privacy Policy
-          applies only to our online activities and is valid for visitors to our
-          website with regards to the information that they shared and/or
-          collected on rooomsnearme. This policy is not applicable to any
-          information collected offline or via channels other than this website.
-          Our Privacy Policy was created with the help of the
-          <a
-            href="Privacy Policy
-          Generator"
-          >
-            https://privacypolicy-generator.com/
-          </a>
-        </p>
-        <h2>Information We Collect</h2>
-        <p>
-          The personal information that you are asked to provide, and the
-          reasons why you are asked to provide it, will be made clear to you at
-          the point we ask you to provide your personal information. We also ask
-          users to submit new passwords, if applicable.
-        </p>
-        <p>
-          We prioritize security and understand the importance of strong
-          passwords. That’s why we don’t use weak passwords on our website, and
-          we recommend that you use a
-          <a href="https://strong-password-generator.com/" target="_blank">
-            strong password
-          </a>
-          to help safeguard your account from unauthorized access.
-        </p>
-        <p>
-          This commitment helps protect our user&apos;s accounts and data,
-          giving you peace of mind while using our services. When you register
-          for an Account, we may ask for your: -
-          <ul className="flex gap-2 flex-col list-disc ml-6 my-2">
-            <li>Email address</li>
-            <li>First name and last name </li>
-            <li>Phone number</li>
-            <li>Address, State, Province, ZIP/Postal code, City</li>
+      <>
+        <header>
+          <h1>Privacy Policy</h1>
+          <p>
+            <strong>Effective Date:</strong> August 27, 2025
+          </p>
+          <p>
+            Welcome to <strong>RoomsNearMe.in</strong>, accessible at{' '}
+            <a href="https://www.roomsnearme.in" rel="nofollow">
+              https://www.roomsnearme.in
+            </a>{' '}
+            (also “RoomsNearMe”, “we”, “us”, “our”). Your privacy is important to us. This Privacy
+            Policy explains what data we collect, how we use it, how we protect it, the rights
+            available to users, and the responsibilities of all parties when using our platform.
+          </p>
+          <p className="notice">
+            Scope: This policy applies to data collected through this website and related online
+            interactions. It does not apply to offline collection or third-party sites and services
+            that are not controlled by RoomsNearMe.
+          </p>
+        </header>
+        <section id="platform-role">
+          <h2>1) Our Role (Listing Platform)</h2>
+          <p>
+            RoomsNearMe is an <strong>accommodation listing platform</strong>. We connect users with
+            third-party accommodation providers (“Hosts”) that are verified by our internal checks
+            and by partner/host documentation. RoomsNearMe does not own, manage, operate, or offer
+            accommodations, and typically does not process bookings or payments on behalf of Hosts
+            unless explicitly stated on a specific page or flow.
+          </p>
+          <p>
+            <strong>Important:</strong> Listings, images, amenities, availability, pricing, and
+            descriptions are supplied by Hosts. We strive for accuracy and verification, but we do
+            not guarantee that all information is error-free or up-to-date. Users should perform
+            their own due diligence before making arrangements with Hosts.
+          </p>
+        </section>
+        <section id="information-we-collect">
+          <h2>2) Information We Collect</h2>
+          <h3>2.1 Information you provide directly</h3>
+          <ul>
+            <li>
+              Identity and contact data: name, email address, phone number, and postal address
+              (city, state, postal code).
+            </li>
+            <li>
+              Account data: username and password. We require strong passwords and disallow
+              disposable or temporary email addresses for account creation.
+            </li>
+            <li>
+              User communications: inquiries, feedback, support requests, and any information
+              provided via forms.
+            </li>
+            <li>
+              Host/listing submissions: details about properties, images, amenities, pricing,
+              policies, and proof of authorization to list.
+            </li>
           </ul>
-        </p>
-        <h2>How We Use Your Information</h2>
-        <p>
-          <strong>
-            We use the information we collect in various ways, including to:
-          </strong>
-          Provide, operate, and maintain our website - Improve, personalize, and
-          expand our website - Understand and analyze how you use our website -
-          Develop new products, services, features, and functionality -
-          Communicate with you, either directly or through one of our partners,
-          including for customer service, to provide you with updates and other
-          information relating to the website, and for marketing and promotional
-          purposes - Send you emails - Find and prevent fraud
-        </p>
-        <h2>Log Files</h2>
-        <p>
-          roomsnearme follows a standard procedure of using log files. These files
-          log visitors when they visit websites. All hosting companies do this
-          as part of hosting services’ analytics. The information collected by
-          log files includes internet protocol (IP) addresses, browser type,
-          Internet Service Provider (ISP), date and time stamp, referring/exit
-          pages, and possibly the number of clicks. These are not linked to any
-          information that is personally identifiable. The purpose of the
-          information is for analyzing trends, administering the site, tracking
-          users’ movement on the website, and gathering demographic information.
-        </p>
-        <h2>Email Privacy Policies</h2>
-        <p>
-          Your privacy and data security matter to us. We've updated our Email
-          privacy policies to improve your experience and keep your information
-          safe. We only allow genuine email addresses and have upgraded our
-          encryption to protect your data. [Email
-          generator](https://temp-maill.org/) addresses are not permitted.
-        </p>
-        <h2>Updated Browser Policies for Enhanced Security and Privacy</h2>{" "}
-        <p>
-          Our browser policy updates are aimed at providing you with a more
-          secure experience. We’ve implemented advanced encryption, limited
-          cookie use to necessary functions, and enhanced our ability to block
-          harmful content. For the highest level of protection, [download the
-          latest version of your preferred
-          browser](http://updatemybrowsers.com/). ## Adult Content and
-          Compliance with Pornography Laws To provide a secure and respectful
-          space for all users, we enforce [pornography
-          laws](https://pornography-laws.com/) by banning adult content. Our
-          platform is designed to prevent any adult material from being
-          published and to swiftly address any violations, ensuring a
-          family-friendly environment.
-        </p>
-        <h2>Third Party Privacy Policies</h2>
-        <p>
-          roomsnearme Privacy Policy does not apply to other advertisers or
-          websites. We advise you to consult the respective Privacy Policies of
-          these third-party ad servers for more detailed information. It may
-          include their practices and instructions about how to opt-out of
-          certain options. You can choose to disable cookies through your
-          individual browser options. More detailed information about cookie
-          management with specific web browsers can be found at the browsers’
-          respective websites.
-        </p>
-        <h2>CCPA Privacy Rights (Do Not Sell My Personal Information)</h2>
-        <p>
-          Under the CCPA, among other rights, California consumers have the
-          right to: - Request that a business that collects a consumer’s
-          personal data disclose the categories and specific pieces of personal
-          data collected about consumers. - Request that a business delete any
-          personal data about the consumer that a business has collected. -
-          Request that a business that sells a consumer’s personal data, not
-          sell the consumer’s personal data. If you make a request, we have one
-          month to respond to you. If you would like to exercise any of these
-          rights, please contact us.
-        </p>
-        <h2>Use of Content</h2>
-        <p>
-          We are committed to maintaining high standards of content quality and
-          integrity. Consequently, we strictly prohibit the use of [Lorem
-          Ipsum](https://lorem-ipsumm.com/) content, including but not limited
-          to Lorem Ipsum text, on our website. All content must be original,
-          relevant, and meaningful to our audience. This ensures that our
-          website remains a valuable and trustworthy resource for our visitors.
-        </p>
-        <h2>GDPR Data Protection Rights</h2>
-        <p>
-          We want to ensure you are fully aware of all of your data protection
-          rights. Every user is entitled to the following: - **The right to
-          access** – You have the right to request copies of your personal data.
-          We may charge a small fee for this service. - **The right to
-          rectification** – You have the right to request that we correct any
-          information you believe is inaccurate. You also have the right to
-          request that we complete information you believe is incomplete. -
-          **The right to erasure** – You have the right to request that we erase
-          your personal data, under certain conditions. - **The right to
-          restrict processing** – You have the right to request that we restrict
-          the processing of your personal data, under certain conditions. -
-          **The right to object to processing** – You have the right to object
-          to our processing of your personal data, under certain conditions. -
-          **The right to data portability** – You have the right to request that
-          we transfer the data collected to another organization, or directly to
-          you, under certain conditions. If you make a request, we have one
-          month to respond to you. If you would like to exercise any of these
-          rights, please contact us.
-        </p>
-        <h2>Children’s Information</h2>
-        Another part of our priority is adding protection for children while
-        using the internet. We encourage parents and guardians to observe,
-        participate in, and/or monitor and guide their online activity.
-        roomsnearme does not knowingly collect any personally identifiable
-        information from children under 13. If you think that your child
-        provided this kind of information on our website, we strongly encourage
-        you to contact us immediately, and we will do our best efforts to
-        promptly remove such information from our records. **Entity Type**: We
-        use individual platforms. <h2>Analytics</h2>{" "}
-        <p>
-          We may use third-party Service providers to monitor and analyze the
-          use of our Service. For Analytics, we use the following tracking and
-          analytics tools: - **Google Analytics**: Google Analytics is a web
-          analytics service offered by Google that tracks and reports website
-          traffic. Google uses the data collected to track and monitor the use
-          of our Service. This data is shared with other Google services. Google
-          may use the collected data to contextualize and personalize ads within
-          its advertising network. You can opt-out by installing the Google
-          Analytics opt-out browser add-on, which prevents the Google Analytics
-          JavaScript (ga.js, analytics.js, and dc.js) from sharing information
-          with Google Analytics about visit activity.
-        </p>
-        <h2>Contact Us</h2> <strong>Contact Information</strong>
-        <p>
-          Email: <a href="mailto:admin@rooomsnearme.in">Mail us</a>
-        </p>
-      </div>
+          <h3>2.2 Information collected automatically</h3>
+          <ul>
+            <li>
+              Log data: IP address, browser type, ISP, referring/exit pages, date/time stamps, pages
+              visited, approximate geolocation, and clickstream data.
+            </li>
+            <li>
+              Cookies and similar technologies: strictly necessary, functional, and limited
+              analytics cookies. See “Cookies &amp; Tracking” for options.
+            </li>
+          </ul>
+          <h3>2.3 Sensitive data and payments</h3>
+          <p>
+            We do not intentionally collect sensitive personal data (e.g., financial account
+            numbers, health, biometric) unless required for a specific lawful purpose with explicit
+            consent. If payments are processed by third-party gateways, payment details are handled
+            by those providers under their own policies. We do not store full payment card details
+            on our servers.
+          </p>
+        </section>
+        <section id="how-we-use">
+          <h2>3) How We Use Your Information</h2>
+          <ul>
+            <li>Provide, operate, maintain, and improve the website and platform experience.</li>
+            <li>
+              Respond to inquiries, provide customer support, and communicate service updates.
+            </li>
+            <li>Personalize content and measure website usage for product improvement.</li>
+            <li>
+              Verify hosts and listings; detect, investigate, and prevent fraud, abuse, and security
+              incidents.
+            </li>
+            <li>Comply with applicable laws, respond to lawful requests, and enforce our terms.</li>
+            <li>
+              Send service and transactional messages; marketing messages only with appropriate
+              consent where required.
+            </li>
+          </ul>
+          <p>
+            <strong>We do not sell or rent personal information</strong> to third parties for their
+            marketing.
+          </p>
+        </section>
+        <section id="lawful-bases">
+          <h2>4) Legal Bases (where applicable)</h2>
+          <p>
+            Where laws like GDPR apply, we rely on the following bases:{' '}
+            <em>contract performance</em>, <em>legitimate interests</em> (e.g., platform security,
+            product improvement), <em>consent</em> (e.g., certain analytics/marketing), and{' '}
+            <em>legal obligations</em>. Users can withdraw consent at any time without affecting
+            processing prior to withdrawal.
+          </p>
+        </section>
+        <section id="sharing">
+          <h2>5) Sharing &amp; Disclosure</h2>
+          <ul>
+            <li>
+              With Hosts and service providers: to operate features users request and for platform
+              functions (hosting, analytics, security, email delivery).
+            </li>
+            <li>
+              For legal reasons: to comply with laws, enforce our terms, or protect rights, safety,
+              and property of users, the public, or RoomsNearMe.
+            </li>
+            <li>
+              Business transfers: in a merger, acquisition, or asset sale, data may be transferred
+              subject to this policy’s protections.
+            </li>
+          </ul>
+        </section>
+        <section id="cookies">
+          <h2>6) Cookies &amp; Tracking</h2>
+          <p>
+            We use minimal cookies for core functionality and limited analytics. Users may control
+            cookies through browser settings. Blocking some cookies may affect site functionality.
+          </p>
+          <ul>
+            <li>Strictly necessary: login/session security, CSRF protection.</li>
+            <li>Functional: preferences, improved UX.</li>
+            <li>
+              Analytics: aggregate insights to improve the site. Opt-out tools may be available from
+              analytics providers.
+            </li>
+          </ul>
+        </section>
+        <section id="analytics">
+          <h2>7) Analytics</h2>
+          <p>
+            We may use analytics tools (e.g., Google Analytics) to understand usage patterns. These
+            providers process data under their own policies. Users can explore opt-out options
+            offered by such providers. We limit data to what is necessary and apply IP truncation or
+            similar safeguards where supported.
+          </p>
+        </section>
+        <section id="security">
+          <h2>8) Security</h2>
+          <p>
+            We implement reasonable administrative, technical, and organizational measures to
+            protect personal data, including encryption in transit, access controls, strong
+            credential policies, and routine monitoring. No method is 100% secure; residual risk
+            remains on any internet service. Users are responsible for maintaining strong, unique
+            passwords and safeguarding their credentials.
+          </p>
+        </section>
+        <section id="data-retention">
+          <h2>9) Data Retention</h2>
+          <p>
+            We retain personal data only for as long as necessary to fulfill the purposes outlined
+            in this policy, comply with legal obligations, resolve disputes, and enforce agreements.
+            Retention periods vary based on account status, legal requirements, and the nature of
+            the data.
+          </p>
+        </section>
+        <section id="your-rights">
+          <h2>10) Your Rights</h2>
+          <p>Subject to applicable law, users may have rights to:</p>
+          <ul>
+            <li>Access and obtain a copy of their personal data.</li>
+            <li>Correct inaccurate or incomplete data.</li>
+            <li>Delete data in certain circumstances.</li>
+            <li>Restrict or object to processing.</li>
+            <li>Data portability (structured, commonly used format).</li>
+            <li>Withdraw consent where processing relies on consent.</li>
+          </ul>
+          <p>
+            To exercise rights, contact us using the details in the “Contact” section. We may
+            require identity verification.
+          </p>
+        </section>
+        <section id="children">
+          <h2>11) Children’s Privacy</h2>
+          <p>
+            RoomsNearMe is not intended for children under 13. We do not knowingly collect personal
+            information from children. If a child has provided personal information, contact us to
+            request deletion.
+          </p>
+        </section>
+        <section id="geo-laws">
+          <h2>12) Region-Specific Notices</h2>
+          <h3>12.1 India</h3>
+          <p>
+            We align with applicable Indian data protection principles and IT security practices. We
+            collect only necessary information, use it for stated purposes, apply reasonable
+            security safeguards, and facilitate user rights consistent with local law.
+          </p>
+          <h3>12.2 GDPR (where applicable)</h3>
+          <p>
+            For EEA/UK users, the GDPR rights described above apply. We may designate a contact
+            point for EU/UK inquiries where required.
+          </p>
+          <h3>12.3 CCPA/CPRA (where applicable)</h3>
+          <p>
+            California residents may request access to categories and specific pieces of personal
+            information, request deletion, correct information, and opt out of “sale”/“sharing”
+            where applicable. We do not sell personal data as defined by the CCPA. Submit requests
+            via our contact email.
+          </p>
+        </section>
+        <section id="content-standards">
+          <h2>13) Content Standards</h2>
+          <ul>
+            <li>
+              We prohibit adult content and enforce applicable content laws. Violations may result
+              in removal or account suspension.
+            </li>
+            <li>
+              We require original, accurate, and relevant content. Placeholder text (e.g., “Lorem
+              Ipsum”) is not permitted in listings.
+            </li>
+            <li>Use of copyrighted images/text requires authorization by the submitter.</li>
+          </ul>
+        </section>
+        <section id="email-browser">
+          <h2>14) Email and Browser Practices</h2>
+          <ul>
+            <li>
+              Email: We only allow genuine, non-disposable email addresses. We use industry-standard
+              encryption and authentication (SPF, DKIM, DMARC) for outbound mail where applicable.
+              Users can opt out of non-essential email marketing.
+            </li>
+            <li>
+              Browser: Keep your browser up to date. We limit cookies to
+              necessary/functional/analytics, block harmful content where feasible, and continuously
+              improve our security posture.
+            </li>
+          </ul>
+        </section>
+        <section id="third-parties">
+          <h2>15) Third-Party Links &amp; Services</h2>
+          <p>
+            Our policy does not apply to third-party websites, services, or advertisers. Review
+            their policies for details on how they handle data. You can manage cookies via your
+            browser or third-party tools.
+          </p>
+        </section>
+        <section id="changes">
+          <h2>16) Changes to This Policy</h2>
+          <p>
+            We may update this Privacy Policy periodically. We will update the “Effective Date” and,
+            where appropriate, provide additional notice. Continued use of the site after changes
+            indicates acceptance of the updated policy.
+          </p>
+        </section>
+        <section id="contact">
+          <h2>17) Contact</h2>
+          <p>
+            For privacy inquiries or to exercise your rights, contact:{' '}
+            <a href="mailto:admin@roomsnearme.in">admin@roomsnearme.in</a>
+          </p>
+        </section>
+        <hr />
+        <section id="legal-disclaimer">
+          <h2>Legal Disclaimer &amp; Platform Responsibility</h2>
+          <p>
+            <span className="tag">Platform</span> RoomsNearMe lists accommodations from verified
+            providers but does not provide, own, manage, or operate those accommodations.
+            Verification reduces risk but cannot eliminate inaccuracies or misrepresentations.
+          </p>
+          <ul>
+            <li>
+              <strong>No guarantees:</strong> We do not guarantee the accuracy, availability,
+              pricing, images, amenities, safety, legality, or suitability of any listing.
+            </li>
+            <li>
+              <strong>User diligence:</strong> Users should verify critical details with Hosts
+              before making arrangements.
+            </li>
+            <li>
+              <strong>Disputes:</strong> Any booking, payment, cancellation, refund, quality,
+              cleanliness, or safety disputes are between Users and Hosts. We may, at our
+              discretion, assist with information or moderation steps but have no obligation to
+              resolve such disputes.
+            </li>
+            <li>
+              <strong>Fraud prevention:</strong> We actively monitor and remove suspected fraudulent
+              content/accounts and may cooperate with law enforcement. Report suspicious activity to{' '}
+              <a href="mailto:admin@roomsnearme.in">admin@roomsnearme.in</a>.
+            </li>
+            <li>
+              <strong>Limitation of liability:</strong> To the maximum extent permitted by law,
+              RoomsNearMe is not liable for direct, indirect, incidental, special, consequential, or
+              punitive damages arising from use of the website, reliance on listings, or
+              interactions with Hosts.
+            </li>
+            <li>
+              <strong>Right to remove:</strong> We may remove or suspend listings or accounts for
+              suspected policy violations, illegal content, or risk to users.
+            </li>
+            <li>
+              <strong>Compliance:</strong> Hosts are responsible for complying with local laws,
+              permits, registrations, guest records, and taxes. We may request proof of compliance
+              during verification.
+            </li>
+          </ul>
+        </section>
+        <section id="seo-note">
+          <h2>SEO &amp; Transparency Note</h2>
+          <p>
+            This policy is written in clear, user-first language, avoids manipulative SEO practices,
+            and provides transparency on data use and platform responsibilities—factors aligned with
+            major search guidelines for trust and usability.
+          </p>
+        </section>
+      </>
     </div>
-  );
+  )
 }
 
-export default Rooms;
+export default Rooms

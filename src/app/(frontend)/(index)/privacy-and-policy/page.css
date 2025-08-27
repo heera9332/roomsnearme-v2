@@ -1,19 +1,102 @@
-h1 {
-  margin-top: 12px;
-  font-size: 32px;
-  font-weight: 600;
+:root {
+  color-scheme: light dark;
+}
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Inter,
+    Arial,
+    sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  color: #111;
+  background: #fff;
 }
 
-h2 {
-  margin-top: 12px;
-  font-size: 28px;
-  font-weight: 600;
-}
-
-p {
-  margin: 6px 0;
-}
-
-a {
-  margin: 0 4px;
+.page {
+  main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+  }
+  h1,
+  h2,
+  h3 {
+    line-height: 1.25;
+    margin: 1.4em 0 0.6em;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.4rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+  }
+  p {
+    margin: 0.75em 0;
+  }
+  ul,
+  ol {
+    margin: 0.5em 0 0.75em 1.25em;
+  }
+  a {
+    color: #0e5ec7;
+    text-decoration: underline;
+  }
+  small,
+  .muted {
+    color: #555;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.95em;
+    background: #f6f8fa;
+    padding: 0.15em 0.35em;
+    border-radius: 4px;
+  }
+  .notice {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 12px 14px;
+    border-radius: 8px;
+  }
+  .grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 800px) {
+    .grid-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+  }
+  .table th,
+  .table td {
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 999px;
+    margin-right: 8px;
+  }
 }

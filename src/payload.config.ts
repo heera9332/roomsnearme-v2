@@ -20,6 +20,7 @@ import { Rooms } from '@/collections/Rooms'
 import { Reviews } from './collections/Reviews'
 
 import { s3Storage } from '@payloadcms/storage-s3'
+import { importRoomsEndpoint, importUsersEndpoint } from 'data'
 
 
 const filename = fileURLToPath(import.meta.url)
@@ -155,4 +156,8 @@ export default buildConfig({
       },
     }),
   ],
+
+  endpoints: [
+    importRoomsEndpoint
+  ]
 })

@@ -114,20 +114,34 @@ export interface Config {
   };
 }
 export interface UserAuthOperations {
-  forgotPassword: {
-    username: string;
-  };
-  login: {
-    password: string;
-    username: string;
-  };
+  forgotPassword:
+    | {
+        email: string;
+      }
+    | {
+        username: string;
+      };
+  login:
+    | {
+        email: string;
+        password: string;
+      }
+    | {
+        password: string;
+        username: string;
+      };
   registerFirstUser: {
     password: string;
     username: string;
+    email?: string;
   };
-  unlock: {
-    username: string;
-  };
+  unlock:
+    | {
+        email: string;
+      }
+    | {
+        username: string;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -136,34 +150,35 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   name?: string | null;
+  oldId?: string | null;
   roles?: ('customer' | 'admin' | 'vendor')[] | null;
   /**
    * Only shown for Admin & Vendor users
    */
   upi?: string | null;
   billing?: {
-    billing_first_name?: string | null;
-    billing_last_name?: string | null;
-    billing_company?: string | null;
-    billing_address_1?: string | null;
-    billing_address_2?: string | null;
-    billing_city?: string | null;
-    billing_state?: string | null;
-    billing_postcode?: string | null;
-    billing_country?: string | null;
-    billing_email?: string | null;
-    billing_phone?: string | null;
+    billingFirstName?: string | null;
+    billingLastName?: string | null;
+    billingCompany?: string | null;
+    billingAddress1?: string | null;
+    billingAddress2?: string | null;
+    billingCity?: string | null;
+    billingState?: string | null;
+    billingPostcode?: string | null;
+    billingCountry?: string | null;
+    billingEmail?: string | null;
+    billingPhone?: string | null;
   };
   shipping?: {
-    shipping_first_name?: string | null;
-    shipping_last_name?: string | null;
-    shipping_company?: string | null;
-    shipping_address_1?: string | null;
-    shipping_address_2?: string | null;
-    shipping_city?: string | null;
-    shipping_state?: string | null;
-    shipping_postcode?: string | null;
-    shipping_country?: string | null;
+    shippingFirstName?: string | null;
+    shippingLastName?: string | null;
+    shippingCompany?: string | null;
+    shippingAddress1?: string | null;
+    shippingAddress2?: string | null;
+    shippingCity?: string | null;
+    shippingState?: string | null;
+    shippingPostcode?: string | null;
+    shippingCountry?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -307,7 +322,7 @@ export interface Room {
   type: '1rk' | '1bhk' | '2bhk' | '3bhk' | 'pg_male' | 'pg_female' | 'hostel' | 'shared' | 'other';
   pricePerMonth: number;
   availableFrom?: string | null;
-  city: 'sagar' | 'damoh';
+  city: 'sagar' | 'damoh' | 'bhopal' | 'indore' | 'bina' | 'jabalpur';
   state: 'mp' | 'up';
   area?: string | null;
   furnishing?: ('unfurnished' | 'semi' | 'furnished') | null;
@@ -762,35 +777,36 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  oldId?: T;
   roles?: T;
   upi?: T;
   billing?:
     | T
     | {
-        billing_first_name?: T;
-        billing_last_name?: T;
-        billing_company?: T;
-        billing_address_1?: T;
-        billing_address_2?: T;
-        billing_city?: T;
-        billing_state?: T;
-        billing_postcode?: T;
-        billing_country?: T;
-        billing_email?: T;
-        billing_phone?: T;
+        billingFirstName?: T;
+        billingLastName?: T;
+        billingCompany?: T;
+        billingAddress1?: T;
+        billingAddress2?: T;
+        billingCity?: T;
+        billingState?: T;
+        billingPostcode?: T;
+        billingCountry?: T;
+        billingEmail?: T;
+        billingPhone?: T;
       };
   shipping?:
     | T
     | {
-        shipping_first_name?: T;
-        shipping_last_name?: T;
-        shipping_company?: T;
-        shipping_address_1?: T;
-        shipping_address_2?: T;
-        shipping_city?: T;
-        shipping_state?: T;
-        shipping_postcode?: T;
-        shipping_country?: T;
+        shippingFirstName?: T;
+        shippingLastName?: T;
+        shippingCompany?: T;
+        shippingAddress1?: T;
+        shippingAddress2?: T;
+        shippingCity?: T;
+        shippingState?: T;
+        shippingPostcode?: T;
+        shippingCountry?: T;
       };
   updatedAt?: T;
   createdAt?: T;
