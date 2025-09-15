@@ -154,7 +154,7 @@ export function RoomsList({ showSearch = false, showPagination = false }: RoomsL
             <div key={room.id} className="bg-white shadow-md rounded-lg overflow-hidden">
               <Link href={`/rooms/${room.id}`}>
                 <Image
-                  src={room?.featuredImage?.url || 'https://placehold.co/400x300'}
+                  src={room?.featuredImage?.url || '/assets/images/placeholder.png'}
                   alt={room?.title || 'Room'}
                   className="w-full h-48 object-cover hover:scale-[100.2%]"
                   width={400}

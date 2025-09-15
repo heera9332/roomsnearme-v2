@@ -17,7 +17,7 @@ export default function Header() {
             alt="roomsnearme"
             width={64}
             height={64}
-            className="w-[72%] md:w-full"
+            className="w-[64px]"
           />
         </Link>
 

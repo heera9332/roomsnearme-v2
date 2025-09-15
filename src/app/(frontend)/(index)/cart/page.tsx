@@ -97,7 +97,7 @@ export default function CartPage() {
                   </td>
                   <td data-label="Image" className="p-2">
                     <Image
-                      src={item.featuredImage?.url || 'https://placehold.co/80'}
+                      src={item.featuredImage?.url || '/assets/images/placeholder.png'}
                       alt={item.title}
                       width={80}
                       height={60}
