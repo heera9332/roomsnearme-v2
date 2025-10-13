@@ -9,7 +9,6 @@ import { Calendar } from '@/components/ui/calendar'
 import { CalendarPlus, MessageCircleQuestion, MapPin } from 'lucide-react'
 import { useCartStore } from '@/store/cart-store'
 import { useRouter } from 'next/navigation'
-import Loader from '@/components/loader'
 import { Room } from '@/payload-types'
 import RoomGallery from '@/components/room-gallary'
 import Content from '@/components/content'
@@ -17,11 +16,12 @@ import { getUniquePhotos } from '@/lib/utils'
 import { RoomReviews } from '@/components/room-reviews'
 import { WriteReview } from '@/components/room-review-form'
 import RelatedRooms from '@/components/related-rooms'
+import { RoomPageSkeleton } from '@/components/skeleton/single-room'
 
-// @ts-ignore
-function formatDate(dateStr) {
+// --- utils ---
+function formatDate(dateStr?: string) {
   if (!dateStr) return 'N/A'
-  const options = { year: 'numeric', month: 'long', day: 'numeric' }
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
   return new Date(dateStr).toLocaleDateString('en-US', options)
 }
 
@@ -31,7 +31,9 @@ interface Args {
 }
 
 export default function RoomSinglePage({ params }: Args) {
+  // show skeleton while route params promise is pending (fallback)
   const { id } = use(params)
+ 
   const [room, setRoom] = useState<Room | null>(null)
   const [loading, setLoading] = useState(true)
   const [quantity, setQuantity] = useState(1)
@@ -42,25 +44,29 @@ export default function RoomSinglePage({ params }: Args) {
   const router = useRouter()
 
   useEffect(() => {
-    async function fetchRoomById() {
+    let active = true
+    async function fetchRoomById(rid: string) {
+      setLoading(true)
       try {
-        const res = await axios.get(`/api/rooms/${id}`)
+        const res = await axios.get(`/api/rooms/${rid}`)
+        if (!active) return
         setRoom(res.data)
       } catch {
+        if (!active) return
         setRoom(null)
       } finally {
-        setLoading(false)
+        if (active) setLoading(false)
       }
     }
-    if (id) fetchRoomById()
+    if (id) fetchRoomById(id)
+    return () => {
+      active = false
+    }
   }, [id])
 
-  if (loading) {
-    return (
-      <div className="mt-16 p-4">
-        <Loader />
-      </div>
-    )
+  // --- show skeleton during: 1) fallback (no id yet), 2) fetching ---
+  if (!id || loading) {
+    return <RoomPageSkeleton />
   }
 
   if (!room) {
@@ -73,7 +79,6 @@ export default function RoomSinglePage({ params }: Args) {
 
   function handleAddToCart() {
     if (!room) return
-
     if (!checkInDate || !checkOutDate) {
       alert('Please select check-in and check-out dates.')
       return
@@ -100,13 +105,16 @@ export default function RoomSinglePage({ params }: Args) {
         {/* Main content */}
         <div className="col-span-12 md:col-span-9">
           {!room.photos?.length && (
-            <Image
-              width={960}
-              height={720}
-              src={room.featuredImage?.url || 'https://placehold.co/960x720'}
-              alt={room.featuredImage?.alt || 'Room Image'}
-              className="w-full max-h-[512px] object-cover shadow-sm rounded-lg mb-6"
-            />
+            <div className="relative w-full overflow-hidden shadow-sm rounded-lg mb-6" style={{ aspectRatio: '4 / 3' }}>
+              <Image
+                fill
+                sizes="(min-width:1024px) 66vw, 100vw"
+                src={room.featuredImage?.url || '/images/placeholder.avif'}
+                alt={room.featuredImage?.alt || 'Room Image'}
+                className="object-cover"
+                priority
+              />
+            </div>
           )}
           {mergedPhotos.length > 1 && <RoomGallery photos={mergedPhotos} />}
 
@@ -169,15 +177,14 @@ export default function RoomSinglePage({ params }: Args) {
             </p>
           </Card>
 
-          {/* Responsive Google Map Card */}
+          {/* Google Map */}
           <Card className="border p-4 shadow-sm block text-center my-4">
             <h2 className="flex gap-2 text-xl text-left font-bold mb-4 items-center">
               <MapPin size={20} />
               <span>Location</span>
             </h2>
-
             <div className="w-full overflow-hidden rounded-lg">
-              <div className="relative pb-[56.25%] h-0">
+              <div className="relative" style={{ aspectRatio: '16 / 9' }}>
                 <iframe
                   src={(room?.googleMapEmbed?.match(/src="([^"]+)"/) || [])[1] || ''}
                   className="absolute top-0 left-0 w-full h-full"
@@ -188,7 +195,6 @@ export default function RoomSinglePage({ params }: Args) {
                 />
               </div>
             </div>
-
             <p className="mt-2">
               <Link
                 href={room.googleMapLink || '#'}
@@ -202,15 +208,12 @@ export default function RoomSinglePage({ params }: Args) {
           </Card>
 
           <RoomReviews />
-
           <WriteReview />
-
           <RelatedRooms room={room} />
         </div>
 
         {/* Sidebar */}
         <div className="col-span-12 md:col-span-3 mt-4 md:mt-0">
-          {/* Availability Card */}
           <Card className="border p-4 shadow-sm block text-center mb-4">
             <h2 className="text-xl text-left font-bold mb-4 flex gap-2 items-center">
               <CalendarPlus size={20} />
@@ -219,21 +222,11 @@ export default function RoomSinglePage({ params }: Args) {
             <div className="mb-4">
               <div>
                 <label className="block font-medium mb-2">Check-in Date:</label>
-                <Calendar
-                  mode="single"
-                  selected={checkInDate}
-                  onSelect={setCheckInDate}
-                  className="w-full"
-                />
+                <Calendar mode="single" selected={checkInDate} onSelect={setCheckInDate} className="w-full" />
               </div>
               <div className="mt-4">
                 <label className="block font-medium mb-2">Check-out Date:</label>
-                <Calendar
-                  mode="single"
-                  selected={checkOutDate}
-                  onSelect={setCheckOutDate}
-                  className="w-full"
-                />
+                <Calendar mode="single" selected={checkOutDate} onSelect={setCheckOutDate} className="w-full" />
               </div>
               <div className="mt-4">
                 <label htmlFor="quantity" className="font-medium">
@@ -253,14 +246,12 @@ export default function RoomSinglePage({ params }: Args) {
               <button
                 className="cursor-pointer mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition w-full"
                 onClick={handleAddToCart}
-                disabled={loading}
               >
-                {loading ? 'Processing' : 'Add to Cart & Checkout'}
+                Add to Cart & Checkout
               </button>
             </div>
           </Card>
 
-          {/* Help Card */}
           <Card className="border p-4 shadow-sm block text-center mb-4">
             <h2 className="flex gap-2 text-xl text-left font-bold mb-4 items-center">
               <MessageCircleQuestion size={20} /> <span>Help</span>
@@ -278,7 +269,9 @@ export default function RoomSinglePage({ params }: Args) {
               </Link>{' '}
               to message us on WhatsApp
             </p>
-            <p>Contact us - <Link href={'tel:+918085589371'}>91 8085589371</Link></p>
+            <p>
+              Contact us - <Link href={'tel:+918085589371'}>91 8085589371</Link>
+            </p>
           </Card>
         </div>
       </div>
