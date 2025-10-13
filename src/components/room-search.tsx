@@ -3,6 +3,7 @@ import React, { useState, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const cities = [
   "Sagar",
@@ -33,8 +34,9 @@ export const RoomSearch = () => {
   };
 
   return (
-    <section className="relative w-full h-[550px] md:h-[750px] bg-[url('/api/media/file/hero-img.jpg')] bg-center bg-cover flex items-center justify-center bg-white">
-      <div className="bg-[#003b95] bg-opacity-50 p-4 md:p-6 rounded-lg text-center m-4 ">
+    <section className="relative w-full h-[550px] md:h-[720px] bg-[url('')] flex items-center justify-center bg-white">
+      <Image src={'/api/media/file/hero-img.jpg'} width={1000} height={1000} alt="rooms near me" className="absolute top-0 pointer-events-none object-cover w-full h-full"/>
+      <div className="bg-[#003b95] bg-opacity-50 p-4 md:p-6 rounded-lg text-center m-4 relative z-10">
         <h1 className="!text-white text-4xl font-bold mb-4">
           Find Your Perfect Stay
         </h1>

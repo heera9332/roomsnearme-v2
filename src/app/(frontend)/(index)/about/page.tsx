@@ -1,10 +1,100 @@
+// app/about/page.tsx
+import type { Metadata } from "next";
+import Link from "next/link";
 import { Phone } from "lucide-react";
 import React from "react";
 
-function Rooms() {
+const PATH = "/about";
+const TITLE = "About Rooms Near Me";
+const DESCRIPTION =
+  "Learn about Rooms Near Me—our story, mission, and how we help you find verified, affordable rooms near your location with dedicated support.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: TITLE,
+    description: DESCRIPTION,
+    alternates: { canonical: PATH },
+    openGraph: {
+      title: `${TITLE} | Rooms Near Me`,
+      description: DESCRIPTION,
+      url: PATH,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${TITLE} | Rooms Near Me`,
+      description: DESCRIPTION,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+    keywords: [
+      "about",
+      "rooms near me",
+      "our story",
+      "mission",
+      "verified listings",
+      "room rentals",
+      "support",
+    ],
+    category: "travel",
+  };
+}
+
+export default function AboutPage() {
+  const updatedAt = "2025-10-14";
+
+  const aboutJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: TITLE,
+    description: DESCRIPTION,
+    url: PATH,
+    dateModified: updatedAt,
+    isPartOf: { "@type": "WebSite", name: "Rooms Near Me", url: "/" },
+  };
+
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Rooms Near Me",
+    url: "/",
+    sameAs: [],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "support@roomsnearme.in",
+        telephone: "+91-80855-89371",
+        areaServed: "IN",
+        availableLanguage: ["en", "hi"],
+      },
+    ],
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+      { "@type": "ListItem", position: 2, name: "About", item: PATH },
+    ],
+  };
+
   return (
     <div className="max-w-7xl mx-auto mt-16 min-h-screen p-4">
-      <h1 className="font-semibold text-2xl">About us</h1>
+      <header className="mb-2">
+        <h1 className="font-semibold text-2xl">About us</h1>
+        <p className="text-sm text-gray-500">Last updated: {updatedAt}</p>
+      </header>
 
       <section className="my-4">
         <div className="my-2">
@@ -32,25 +122,23 @@ function Rooms() {
 
         <div className="my-2">
           <h3 className="text-xl font-semibold mb-2">Why Choose Us?</h3>
-          <div className="my-2">
-            <ul className="flex flex-col gap-2 list-disc ml-6">
-              <li>
-                <strong>Verified Listings:</strong> We work directly with
-                property owners to ensure that you have access to genuine,
-                high-quality rooms.
-              </li>
-              <li>
-                <strong>Tailored Searches:</strong> Filter your search by
-                location, amenities, and price, making it easy to find a room
-                that fits your lifestyle.
-              </li>
-              <li>
-                <strong>Dedicated Support:</strong> Our team is always here to
-                assist you, from your first search to settling into your new
-                home.
-              </li>
-            </ul>
-          </div>
+          <ul className="flex flex-col gap-2 list-disc ml-6">
+            <li>
+              <strong>Verified Listings:</strong> We work directly with
+              property owners to ensure that you have access to genuine,
+              high-quality rooms.
+            </li>
+            <li>
+              <strong>Tailored Searches:</strong> Filter your search by
+              location, amenities, and price, making it easy to find a room
+              that fits your lifestyle.
+            </li>
+            <li>
+              <strong>Dedicated Support:</strong> Our team is always here to
+              assist you, from your first search to settling into your new
+              home.
+            </li>
+          </ul>
         </div>
 
         <div className="my-2">
@@ -78,15 +166,35 @@ function Rooms() {
         <div className="my-2">
           <h2 className="text-xl font-semibold mb2">Contact now</h2>
           <div className="inline-block">
-            <div className="mt-2 bg-primary text-white rounded-md px-4 py-2 flex gap-2 cursor-pointer items-center justify-center">
+            <a
+              href="tel:+918085589371"
+              className="mt-2 bg-primary text-white rounded-md px-4 py-2 flex gap-2 items-center justify-center"
+            >
               <Phone size={20} />
               <span>Contact Support</span>
-            </div>
+            </a>
+            <p className="mt-2 text-sm text-gray-600">
+              Or email{" "}
+              <a href="mailto:support@roomsnearme.in" className="underline">
+                support@roomsnearme.in
+              </a>
+              . Visit our{" "}
+              <Link href="/help" className="underline text-blue-600">
+                Help Center
+              </Link>{" "}
+              for quick answers.
+            </p>
           </div>
         </div>
       </section>
+
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([aboutJsonLd, orgJsonLd, breadcrumbJsonLd]),
+        }}
+      />
     </div>
   );
 }
-
-export default Rooms;

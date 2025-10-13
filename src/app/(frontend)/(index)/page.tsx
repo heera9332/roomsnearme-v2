@@ -9,7 +9,7 @@ import SectionAboutUs from '@/components/section-about-us'
 import CTA from '@/components/cta'
 async function Home() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-[100dvh] bg-gray-100">
       {/* Hero Section */}
       <RoomSearch />
 
@@ -18,7 +18,7 @@ async function Home() {
         <RoomsList />
       </section>
 
-      <section className="max-w-7xl md:mx-auto p-4 px-6 md:py-10">
+      <section className="max-w-7xl md:mx-auto p-4 px-6 md:py-16">
         <CitiesSlider />
       </section>
 
