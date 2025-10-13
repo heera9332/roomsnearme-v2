@@ -50,3 +50,4 @@ node_modules
 package-lock.json
 bun-lock.json
 *.env.prod
+.env.production
