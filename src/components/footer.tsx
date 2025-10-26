@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 
 // src/components/Footer.tsx
 export default function Footer() {
@@ -164,6 +165,20 @@ export default function Footer() {
       <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
         © {new Date().getFullYear()} Rooms Near Me. All rights reserved.
       </div>
+
+      <Script id="tawk-to" strategy="afterInteractive">
+        {`
+          var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+          (function(){
+          var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+          s1.async=true;
+          s1.src='https://embed.tawk.to/68fd8c228f570d1956b50cd8/1j8f6mq2o';
+          s1.charset='UTF-8';
+          s1.setAttribute('crossorigin','*');
+          s0.parentNode.insertBefore(s1,s0);
+          })();
+          `}
+      </Script>
     </footer>
   );
 }
